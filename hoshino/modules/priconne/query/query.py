@@ -8,7 +8,7 @@ p2 = R.img('priconne/quick/r17-3-tw-1.png').cqcode
 p4 = R.img('priconne/quick/r18-3-jp-1.png').cqcode
 p5 = R.img('priconne/quick/r18-3-jp-2.png').cqcode
 p6 = R.img('priconne/quick/r18-3-jp-3.png').cqcode
-p7 = R.img('priconne/quick/r9-5-cn.png').cqcode
+p7 = R.img('priconne/quick/r10-3-cn.png').cqcode
 
 @sv.on_rex(r'^(\*?([日台国陆b])服?([前中后]*)卫?)?rank(表|推荐|指南)?$')
 async def rank_sheet(bot, ev):
@@ -38,7 +38,7 @@ async def rank_sheet(bot, ev):
         await bot.send(ev, '\n'.join(msg), at_sender=True)
         await util.silence(ev, 60)
     elif is_cn:
-        msg.append(f'※不定期搬运自NGA\n※制作by艾琳娜 代发by@黑漫飒麻\nR9-5 rank表：\n{p7}')
+        msg.append(f'※不定期搬运自NGA\n※制作by席巴鸽\nR10-3 rank表：\nR10需谨慎，建议刷到装备后先不要穿，具体看会战表现和作业决定\n{p7}')
         await bot.send(ev, '\n'.join(msg), at_sender=True)
         await util.silence(ev, 60)
 

@@ -35,13 +35,16 @@ TOP_MANUAL = '''
 ※※调教时请注意使用频率，您的滥用可能会导致bot账号被封禁
 '''.strip()
 
+
 def gen_bundle_manual(bundle_name, service_list, gid):
     manual = [bundle_name]
     service_list = sorted(service_list, key=lambda s: s.name)
     for sv in service_list:
         if sv.visible:
             spit_line = '=' * max(0, 18 - len(sv.name))
-            manual.append(f"|{'○' if sv.check_enabled(gid) else '×'}| {sv.name} {spit_line}")
+            manual.append(
+                f"|{'○' if sv.check_enabled(gid) else '×'}"
+                f"| {sv.name} {spit_line}")
             if sv.help:
                 manual.append(sv.help)
     return '\n'.join(manual)

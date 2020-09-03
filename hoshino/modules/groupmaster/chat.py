@@ -1,4 +1,5 @@
 import random
+from aiocqhttp.message import MessageSegment, unescape
 
 from nonebot import on_command
 
@@ -6,12 +7,19 @@ from hoshino import R, Service, priv, util
 
 
 # basic function for debug, not included in Service('chat')
-@on_command('zai?', aliases=('在?', '在？', '在吗', '在么？', '在嘛', '在嘛？'), only_to_me=True)
+@on_command(
+    'zai?',
+    aliases=(
+        '在?', '在？', '在吗', '在么？', '在嘛', '在嘛？'
+    ),
+    only_to_me=True
+)
 async def say_hello(session):
     await session.send('はい！私はいつも貴方の側にいますよ！')
 
 
 sv = Service('chat', visible=False)
+
 
 @sv.on_fullmatch('沙雕机器人')
 async def say_sorry(bot, ev):
@@ -79,7 +87,54 @@ nyb_player = f'''{R.img('newyearburst.gif').cqcode}
 ⇆ ㅤ◁ ㅤㅤ❚❚ ㅤㅤ▷ ㅤ↻
 '''.strip()
 
+
 @sv.on_keyword(('春黑', '新黑'))
 async def new_year_burst(bot, ev):
     if random.random() < 0.02:
         await bot.send(ev, nyb_player)
+
+
+# ================ test ====================
+
+@sv.on_fullmatch('test_rec')
+async def test_rec(bot, ev):
+    await bot.send(ev, R.rec('YUUDACHI/5.mp3').cqcode)
+
+
+@sv.on_keyword('来啊快活啊', only_to_me=True)
+async def get_out(bot, ctx):
+    await bot.send(ctx, '爬' * random.randint(1, 8) + '!', at_sender=True)
+    await util.silence(ctx, 30)
+
+
+@sv.on_prefix('echo')
+async def echo(bot, ev):
+    import re
+    context = []
+    for msg_seg in ev.message:
+        if msg_seg.type == 'text':
+            context.append(msg_seg.data['text'].strip())
+    if context:
+        _type, _dict_text = re.match(
+            r'\[CQ:(\w+),(.*)\]',
+            unescape(''.join(context))
+        ).groups()
+        _dict = {}
+        for item in _dict_text.split(','):
+            k, v = item.split('=')
+            _dict[k.strip()] = v.strip()
+        await bot.send(ev, MessageSegment(type_=_type, data=_dict))
+
+
+@sv.on_prefix('点歌')
+async def ktv(bot, ev):
+    song_id = []
+    for msg_seg in ev.message:
+        if msg_seg.type == 'text':
+            song_id.append(msg_seg.data['text'].strip())
+    if song_id:
+        try:
+            song_id = int(''.join(song_id))
+            await bot.send(ev, MessageSegment.music(type_='163', id_=song_id))
+        except ValueError:
+            await bot.send(ev, '只能输入纯数字ID哦~')
