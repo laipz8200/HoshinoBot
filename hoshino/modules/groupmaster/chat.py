@@ -121,7 +121,9 @@ async def echo(bot, ev):
         ).groups()
         _dict = {}
         for item in _dict_text.split(','):
-            k, v = item.split('=')
+            item = item.split('=')
+            k = item[0]
+            v = ''.join(item[1:])
             _dict[k.strip()] = v.strip()
         await bot.send(ev, MessageSegment(type_=_type, data=_dict))
 
