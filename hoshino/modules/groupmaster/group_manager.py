@@ -60,7 +60,7 @@ async def awarded_title(bot, ev):
     user_id = None
     special_title = []
     for msg_seg in ev.message:
-        if msg_seg.type == 'text':
+        if msg_seg.type == 'text' and msg_seg.data['text'].strip():
             special_title.append(msg_seg.data['text'].strip())
         if msg_seg.type == 'at':
             if msg_seg.data['qq'] == 'all':
@@ -71,7 +71,7 @@ async def awarded_title(bot, ev):
     if user_id is None:
         await bot.send(ev, '这个头衔, 你是打算给谁?')
         return
-    if special_title is None:
+    if not special_title:
         await bot.send(ev, '这是要发皇帝的新头衔吗? 我不会呀T^T')
         return
     else:
