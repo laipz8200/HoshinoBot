@@ -126,17 +126,3 @@ async def echo(bot, ev):
             v = ''.join(item[1:])
             _dict[k.strip()] = v.strip()
         await bot.send(ev, MessageSegment(type_=_type, data=_dict))
-
-
-@sv.on_prefix('点歌')
-async def ktv(bot, ev):
-    song_id = []
-    for msg_seg in ev.message:
-        if msg_seg.type == 'text':
-            song_id.append(msg_seg.data['text'].strip())
-    if song_id:
-        try:
-            song_id = int(''.join(song_id))
-            await bot.send(ev, MessageSegment.music(type_='163', id_=song_id))
-        except ValueError:
-            await bot.send(ev, '只能输入纯数字ID哦~')
