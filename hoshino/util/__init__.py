@@ -68,6 +68,19 @@ async def silence(ev: CQEvent, ban_time, skip_su=True):
         hoshino.logger.exception(e)
 
 
+async def members_banned(ev: CQEvent, user_id, ban_time, skip_su=True):
+    try:
+        if skip_su and user_id in hoshino.config.SUPERUSERS:
+            return
+        await hoshino.get_bot().set_group_ban(
+            self_id=ev.self_id, group_id=ev.group_id,
+            user_id=user_id, duration=ban_time)
+    except ActionFailed as e:
+        hoshino.logger.error(f'禁言失败 retcode={e.retcode}')
+    except Exception as e:
+        hoshino.logger.exception(e)
+
+
 async def set_group_special_title(
         ev: CQEvent, special_title: str, user_id: int = None):
     try:
