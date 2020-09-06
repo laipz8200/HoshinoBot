@@ -1,4 +1,5 @@
 from functools import cmp_to_key
+from pathlib import Path
 
 from nonebot import CommandSession, CQHttpError, on_command
 from nonebot import permission as perm
@@ -8,14 +9,15 @@ from hoshino import Service, priv
 
 PRIV_TIP = f'群主={priv.OWNER} 群管={priv.ADMIN} 群员={priv.NORMAL} bot维护组={priv.SUPERUSER}'
 
+
 @on_command('lssv', aliases=('服务列表', '功能列表'), permission=perm.GROUP_ADMIN, only_to_me=False, shell_like=True)
-async def lssv(session:CommandSession):
+async def lssv(session: CommandSession):
     parser = ArgumentParser(session=session)
     parser.add_argument('-a', '--all', action='store_true')
     parser.add_argument('-H', '--hidden', action='store_true')
     parser.add_argument('-g', '--group', type=int, default=0)
     args = parser.parse_args(session.argv)
-    
+
     verbose_all = args.all
     only_hidden = args.hidden
     if session.ctx['user_id'] in session.bot.config.SUPERUSERS:
@@ -28,7 +30,8 @@ async def lssv(session:CommandSession):
     msg = [f"群{gid}服务一览："]
     svs = Service.get_loaded_services().values()
     svs = map(lambda sv: (sv, sv.check_enabled(gid)), svs)
-    key = cmp_to_key(lambda x, y: (y[1] - x[1]) or (-1 if x[0].name < y[0].name else 1 if x[0].name > y[0].name else 0))
+    key = cmp_to_key(lambda x, y: (
+        y[1] - x[1]) or (-1 if x[0].name < y[0].name else 1 if x[0].name > y[0].name else 0))
     svs = sorted(svs, key=key)
     for sv, on in svs:
         if verbose_all or (sv.visible ^ only_hidden):
@@ -38,14 +41,27 @@ async def lssv(session:CommandSession):
 
 
 @on_command('enable', aliases=('启用', '开启', '打开'), permission=perm.GROUP, only_to_me=False)
-async def enable_service(session:CommandSession):
+async def enable_service(session: CommandSession):
     await switch_service(session, turn_on=True)
 
+
 @on_command('disable', aliases=('禁用', '关闭'), permission=perm.GROUP, only_to_me=False)
-async def disable_service(session:CommandSession):
+async def disable_service(session: CommandSession):
     await switch_service(session, turn_on=False)
 
-async def switch_service(session:CommandSession, turn_on:bool):
+
+@on_command('reload', aliases=('重启', '再启动'), permission=perm.SUPERUSER, only_to_me=True)
+async def reload(session: CommandSession):
+    from .reloader import Counter
+    content = "class Counter(object):\n" \
+        + "    count = " \
+        + str(Counter.count + 1)
+    with open(Path(__file__).parent.joinpath('reloader.py'), 'w') as f:
+        f.write(content)
+    await session.finish('等会儿见哦~')
+
+
+async def switch_service(session: CommandSession, turn_on: bool):
     action_tip = '启用' if turn_on else '禁用'
     if session.ctx['message_type'] == 'group':
         names = session.current_arg_text.split()
@@ -59,7 +75,8 @@ async def switch_service(session:CommandSession, turn_on:bool):
                 sv = svs[name]
                 u_priv = priv.get_user_priv(session.ctx)
                 if u_priv >= sv.manage_priv:
-                    sv.set_enable(group_id) if turn_on else sv.set_disable(group_id)
+                    sv.set_enable(
+                        group_id) if turn_on else sv.set_disable(group_id)
                     succ.append(name)
                 else:
                     try:
@@ -81,7 +98,8 @@ async def switch_service(session:CommandSession, turn_on:bool):
             return
         args = session.current_arg_text.split()
         if len(args) < 2:
-            session.finish('Usage: <service_name> <group_id1> [<group_id2>, ...]')
+            session.finish(
+                'Usage: <service_name> <group_id1> [<group_id2>, ...]')
         name, *group_ids = args
         svs = Service.get_loaded_services()
         if name not in svs:
