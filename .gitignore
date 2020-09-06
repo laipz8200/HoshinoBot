@@ -20,6 +20,7 @@ static/
 # hoshino/modules/deepchat/
 hoshino/modules/pcrclanbattle/clanbattlev3
 hoshino/modules/yobot
+hoshino/modules/setu/r18.py
 
 # 暂时删除的代码
 TRASH/

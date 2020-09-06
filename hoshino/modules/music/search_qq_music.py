@@ -7,8 +7,8 @@ USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/
 def search(keyword):
     """ 搜索音乐 """
     number = 5
-    params = {"w": keyword, "format": "json", "p": 10, "n": number}
     song_list = []
+    params = {"w": keyword, "format": "json", "p": 0, "n": number}
 
     headers = {
         "referer": "http://m.y.qq.com",
