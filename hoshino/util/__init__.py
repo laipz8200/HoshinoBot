@@ -34,10 +34,10 @@ def load_config(inbuilt_file_var):
         return {}
 
 
-async def delete_msg(ev: CQEvent):
+async def delete_msg(ev: CQEvent, message_id):
     try:
         await hoshino.get_bot().delete_msg(
-            self_id=ev.self_id, message_id=ev.message_id)
+            self_id=ev.self_id, message_id=message_id)
     except ActionFailed as e:
         hoshino.logger.error(f'撤回失败 retcode={e.retcode}')
     except Exception as e:

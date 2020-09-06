@@ -80,7 +80,7 @@ async def awarded_title(bot, ev):
             ev, special_title=special_title, user_id=user_id)
 
 
-@sv.on_suffix(['禁言', '塞口球'])
+@sv.on_suffix(['禁言', '塞口球', '闭嘴', '住口'])
 async def mute(bot, ev):
     if not priv.check_priv(ev, priv.SUPERUSER):
         await bot.send(ev, '我才不会听你的命令呢! 哼~', at_sender=True)

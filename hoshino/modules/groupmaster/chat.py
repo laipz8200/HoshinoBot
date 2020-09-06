@@ -1,9 +1,10 @@
 import random
-from aiocqhttp.message import MessageSegment, unescape
+import re
 
+from aiocqhttp.message import MessageSegment, unescape
 from nonebot import on_command
 
-from hoshino import R, Service, priv, util
+from hoshino import R, Service, priv, util, logger
 
 
 # basic function for debug, not included in Service('chat')
@@ -109,7 +110,6 @@ async def get_out(bot, ctx):
 
 @sv.on_prefix('echo')
 async def echo(bot, ev):
-    import re
     context = []
     for msg_seg in ev.message:
         if msg_seg.type == 'text':
@@ -126,3 +126,11 @@ async def echo(bot, ev):
             v = ''.join(item[1:])
             _dict[k.strip()] = v.strip()
         await bot.send(ev, MessageSegment(type_=_type, data=_dict))
+
+
+@sv.on_fullmatch('test_chat')
+async def test_chat(bot, ev):
+    msg = await bot.send(ev, '测试消息')
+    import asyncio
+    await asyncio.sleep(3)
+    await util.delete_msg(ev, msg['message_id'])
