@@ -4,7 +4,7 @@ import re
 from aiocqhttp.message import MessageSegment, unescape
 from nonebot import on_command
 
-from hoshino import R, Service, priv, util, logger
+from hoshino import R, Service, priv, util
 
 
 # basic function for debug, not included in Service('chat')

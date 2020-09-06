@@ -2,7 +2,7 @@ import typing
 
 from aiocqhttp.message import MessageSegment
 
-from hoshino import Service, logger
+from hoshino import Service
 
 from .search_netease_cloud_music import search as search163
 from .search_qq_music import search as searchqq
@@ -55,7 +55,7 @@ async def to_apply_for_title(bot, ev):
         music_name = ''.join(music_name)
         song_list = search_netease_cloud_music(music_name)
         if song_list:
-            logger.info('成功获取到歌曲列表')
+            sv.logger.info('成功获取到歌曲列表')
             key = f'{ev.group_id}-{ev.user_id}'
             temp[key] = {}
             # _music = MessageSegment.music(type_=_type, id_=_id)

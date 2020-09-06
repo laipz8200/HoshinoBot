@@ -1,7 +1,7 @@
 from functools import cmp_to_key
 from pathlib import Path
 
-from nonebot import CommandSession, CQHttpError, on_command
+from nonebot import CommandSession, on_command
 from nonebot import permission as perm
 from nonebot.argparse import ArgumentParser
 

@@ -2,6 +2,9 @@
 
 `0` is for Default or NotSet. The other numbers may change in future versions.
 """
+from hoshino.typing import CQEvent
+import hoshino
+from datetime import datetime
 BLACK = -999
 DEFAULT = 0
 NORMAL = 1
@@ -11,10 +14,6 @@ OWNER = 22
 WHITE = 51
 SUPERUSER = 999
 
-from datetime import datetime
-
-import hoshino
-from hoshino.typing import CQEvent
 
 #===================== block list =======================#
 _black_group = {}  # Dict[group_id, expr_time]
