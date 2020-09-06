@@ -50,18 +50,30 @@ def create_key(size):
 
 # 搜索单曲(1)，歌手(100)，专辑(10)，歌单(1000)，用户(1002) *(type)*
 def search(keywords, stype=1, offset=0, total="true", limit=50):
+    song_list = []
     path = "/weapi/search/get"
     params = dict(s=keywords, type=stype, offset=offset,
                   total=total, limit=limit)
     data = request('POST', path, params)
-    if 'code' in data['result']:
-        return {'songs': None}
-    return data['result']
+    if data:
+        for item in data['result']['songs'][:3]:
+            song_list.append(
+                {
+                    'name': item['name'],
+                    'id': item['id'],
+                    'artists': ' '.join(
+                        [artist['name'] for artist in item['artists']]
+                    ),
+                    'type': '163'
+                }
+            )
+        return song_list
+    return data
 
 
-def request(method, path, params={}, default={"code": -1}, custom_cookies={}):
+def request(method, path, params={},  custom_cookies={}):
     endpoint = "{}{}".format(BASE_URL, path)
-    data = default
+    data = None
 
     cookie = {}
     for key, value in custom_cookies.items():
@@ -69,7 +81,8 @@ def request(method, path, params={}, default={"code": -1}, custom_cookies={}):
 
     params = encrypted_request(params)
     try:
-        resp = httpx.request(method, endpoint, data=params, cookies=cookie)
+        resp = httpx.request(method, endpoint, data=params,
+                             cookies=cookie, timeout=3)
         data = resp.json()
     finally:
         return data
@@ -98,6 +111,7 @@ def make_cookie(name, value):
 
 
 if __name__ == "__main__":
-    data = search('起风了')
-    data = data['songs'][0]
-    print(data['name'], data['id'])
+    song_list = search('起风了')
+    if song_list:
+        for song in song_list:
+            print(song)

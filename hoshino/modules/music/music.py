@@ -11,8 +11,36 @@ sv = Service(
     'music',
     enable_on_default=True,
     visible=True,
-    help_=""
+    help_="[点歌 好日子]搜索歌曲"
 )
+
+
+temp = {}
+
+
+@sv.on_prefix(['选', '选择'])
+async def choose_song(bot, ev):
+    key = f'{ev.group_id}-{ev.user_id}'
+    if key not in temp:
+        await bot.send(ev, '你还没有点歌呢!', at_sender=True)
+        return
+    song_dict = temp[key]
+    song_idx = []
+    for msg_seg in ev.message:
+        if msg_seg.type == 'text' and msg_seg.data['text']:
+            song_idx.append(msg_seg.data['text'].strip())
+    if not song_idx:
+        await bot.send(ev, '你想听什么呀?', at_sender=True)
+    else:
+        song_idx = ''.join(song_idx)
+        if song_idx in song_dict:
+            song = song_dict[song_idx]
+            music = MessageSegment.music(song['type'], song['id'])
+            del temp[key]
+            await bot.send(ev, music)
+        else:
+            await bot.send(ev, '只能选择列表中有的歌曲哦', at_sender=True)
+            return
 
 
 @sv.on_prefix('点歌')
@@ -25,20 +53,30 @@ async def to_apply_for_title(bot, ev):
         await bot.send(ev, '你想听什么呀?', at_sender=True)
     else:
         music_name = ''.join(music_name)
-        songs, _id, _type = search_netease_cloud_music(music_name)
-        if songs:
-            _music = MessageSegment.music(type_=_type, id_=_id)
-            logger.info(f'点歌{music_name}成功')
-            await bot.send(ev, _music)
+        song_list = search_netease_cloud_music(music_name)
+        if song_list:
+            logger.info('成功获取到歌曲列表')
+            key = f'{ev.group_id}-{ev.user_id}'
+            temp[key] = {}
+            # _music = MessageSegment.music(type_=_type, id_=_id)
+            msg = ['我找到了这些~!']
+            for idx, song in enumerate(song_list):
+                msg.append(
+                    f'{idx}. {song["name"]} - {song["artists"]}'
+                )
+                temp[key][str(idx)] = {'id': song['id'], 'type': song['type']}
+            msg.append('发送[选择]+序号来听歌吧~')
+            await bot.send(ev, '\n'.join(msg), at_sender=True)
         else:
             await bot.send(ev, '什么也没有找到的说OxO')
 
 
 def search_netease_cloud_music(music_name: str) -> typing.Union[list, dict]:
-    data = search163(music_name)['songs']
-    if data and data[0]['name'] == music_name:
-        return data[0]['name'], data[0]['id'], '163'
-    data = searchqq(music_name)
-    if data:
-        return data[0]['songname'], data[0]['songid'], 'qq'
-    return None, None, None
+    result = []
+    song_list = search163(music_name)
+    if song_list:
+        result += song_list
+    song_list = searchqq(music_name)
+    if song_list:
+        result += song_list
+    return result
