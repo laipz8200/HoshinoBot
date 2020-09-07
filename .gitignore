@@ -22,6 +22,7 @@ hoshino/modules/pcrclanbattle/clanbattlev3
 hoshino/modules/yobot
 hoshino/modules/setu/r18.py
 hoshino/modules/botmanage/reloader.py
+hoshino/modules/generator
 
 # 暂时删除的代码
 TRASH/
