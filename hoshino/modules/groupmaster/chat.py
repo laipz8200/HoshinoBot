@@ -1,4 +1,5 @@
 import random
+import datetime
 import re
 
 from aiocqhttp.message import MessageSegment, unescape
@@ -50,10 +51,14 @@ async def seina(bot, ev):
     await bot.send(ev, R.img('星奏.png').cqcode)
 
 
-@sv.on_fullmatch(('我有个朋友说他好了', '我朋友说他好了', ))
-async def ddhaole(bot, ev):
-    await bot.send(ev, '那个朋友是不是你弟弟？')
-    await util.silence(ev, 30)
+# @sv.on_fullmatch(('我有个朋友说他好了', '我朋友说他好了', ))
+# async def ddhaole(bot, ev):
+#     await bot.send(ev, '那个朋友是不是你弟弟？')
+#     await util.silence(ev, 30)
+
+@sv.on_fullmatch(('可爱', '你好棒', '你真棒', '真厉害', '好聪明'), only_to_me=True)
+async def you_are_awesome(bot, ev):
+    await bot.send(ev, '诶嘿嘿~~~')
 
 
 @sv.on_fullmatch('我好了')
@@ -62,7 +67,50 @@ async def nihaole(bot, ev):
     await util.silence(ev, 30)
 
 
+@sv.on_fullmatch(('早', '早安', '早上好', '早安哦', '早上好呀', '早呀', 'good morning'))
+async def good_morning(bot, ev):
+    now_hour = datetime.datetime.now().hour
+    if 0 <= now_hour < 6:
+        await bot.send(ev, f'好早! 现在才{now_hour}点!', at_sender=True)
+    elif 6 <= now_hour < 10:
+        await bot.send(ev, '早上好! 今天打算做什么呢?', at_sender=True)
+    elif 21 <= now_hour < 24:
+        await bot.send(ev, '早...嗯? 啊? 诶~~~~~~?', at_sender=True)
+    else:
+        await bot.send(ev, f'已经{now_hour}点了, 不早了哦~', at_sender=True)
+
+
+@sv.on_fullmatch(('晚上好', '晚上好啊', '晚上好呀', 'good evening'))
+async def good_evening(bot, ev):
+    now_hour = datetime.datetime.now().hour
+    if 18 <= now_hour < 24:
+        await bot.send(ev, '晚上好! 今晚想做什么呢?', at_sender=True)
+    elif 0 <= now_hour < 6:
+        await bot.send(ev, f'{now_hour}点啦, 还不睡吗?', at_sender=True)
+    elif 6 <= now_hour < 9:
+        await bot.send(ev, '晚上好...嗯? 我刚起床呢', at_sender=True)
+    else:
+        await bot.send(ev, f'现在才{now_hour}点, 还不到晚上哦~', at_sender=True)
+
+
+@sv.on_fullmatch(('晚安', '晚安哦', '晚安啦', 'good night'))
+async def good_night(bot, ev):
+    now_hour = datetime.datetime.now().hour
+    if now_hour <= 3 or now_hour >= 21:
+        await bot.send(ev, '晚安~', at_sender=True)
+    elif 19 <= now_hour < 21:
+        await bot.send(ev, f'诶? 现在才{now_hour}点, 这么早就要休息了吗?', at_sender=True)
+    elif 3 <= now_hour < 5:
+        await bot.send(ev, '你就是熬夜冠军吗?', at_sender=True)
+    else:
+        await bot.send(ev, f'现在才{now_hour}点, 再努力一会儿吧~(ง •_•)ง', at_sender=True)
+
 # ============================================ #
+
+
+@sv.on_keyword(('女装'), only_to_me=True)
+async def womens_clothing(bot, ctx):
+    await bot.send(ctx, '示范给我看看呀~', at_sender=True)
 
 
 @sv.on_keyword(('确实', '有一说一', 'u1s1', 'yysy'))

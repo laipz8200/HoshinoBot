@@ -7,12 +7,15 @@ from hoshino import R, Service, priv
 from hoshino.util import FreqLimiter, DailyNumberLimiter
 
 _max = 5
-EXCEED_NOTICE = f'您今天已经冲过{_max}次了，请明早5点后再来！'
+# EXCEED_NOTICE = f'您今天已经冲过{_max}次了，请明早5点后再来！'
+EXCEED_NOTICE = f'太涩了, 所以我发给主人了~'
 _nlmt = DailyNumberLimiter(_max)
 _flmt = FreqLimiter(5)
 
-sv = Service('setu', manage_priv=priv.SUPERUSER, enable_on_default=True, visible=False)
+sv = Service('setu', manage_priv=priv.SUPERUSER,
+             enable_on_default=True, visible=False)
 setu_folder = R.img('setu/').path
+
 
 def setu_gener():
     while True:
@@ -22,7 +25,9 @@ def setu_gener():
             if os.path.isfile(os.path.join(setu_folder, filename)):
                 yield R.img('setu/', filename)
 
+
 setu_gener = setu_gener()
+
 
 def get_setu():
     return setu_gener.__next__()
