@@ -1,3 +1,6 @@
+"""
+Reference link: https://github.com/bluetomlee/NetEase-MusicBox/blob/master/src/api.py
+"""
 import json
 
 import httpx
@@ -64,7 +67,7 @@ def search(keyword: str, result_num: int = 3):
 
 
 if __name__ == "__main__":
-    song_list = new_search('起风了')
+    song_list = search('起风了')
     if song_list:
         for song in song_list:
             print(song)

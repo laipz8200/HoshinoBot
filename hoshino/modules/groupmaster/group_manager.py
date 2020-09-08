@@ -123,3 +123,42 @@ async def remove_banned(bot, ev):
         await bot.send(ev, f'{MessageSegment.at(user_id)} 你可以说话咯~')
     else:
         await bot.send(ev, '你要解除谁的禁言呀?', at_sender=True)
+
+
+@sv.on_prefix(['设置管理', '设置管理员', '举荐'])
+async def set_up_an_administrator(bot, ev):
+    if not priv.check_priv(ev, priv.SUPERUSER):
+        await bot.send(ev, '我才不会听你的命令呢! 哼~', at_sender=True)
+        return
+    user_id = None
+    for msg_seg in ev.message:
+        if msg_seg.type == 'at':
+            if msg_seg.data['qq'] == 'all':
+                # await bot.send(ev, '诶? 你要把大家都赶走吗? 不可以哦~')
+                return
+            else:
+                user_id = int(msg_seg.data['qq'])
+    if user_id:
+        await bot.send(ev, f'{MessageSegment.at(user_id)} 恭喜升职~加薪~走向人生巅峰!')
+        await util.set_up_an_administrator(ev, user_id=user_id, enable=True)
+    else:
+        await bot.send(ev, '喵？')
+
+
+@sv.on_prefix(['取消管理', '取消管理员', '罢免'])
+async def cancel_administrator(bot, ev):
+    if not priv.check_priv(ev, priv.SUPERUSER):
+        await bot.send(ev, '我才不会听你的命令呢! 哼~', at_sender=True)
+        return
+    user_id = None
+    for msg_seg in ev.message:
+        if msg_seg.type == 'at':
+            if msg_seg.data['qq'] == 'all':
+                # await bot.send(ev, '诶? 你要把大家都赶走吗? 不可以哦~')
+                return
+            else:
+                user_id = int(msg_seg.data['qq'])
+    if user_id:
+        await util.set_up_an_administrator(ev, user_id=user_id, enable=False)
+    else:
+        await bot.send(ev, '喵？')

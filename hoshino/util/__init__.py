@@ -55,6 +55,24 @@ async def kick(ev: CQEvent, user_id: int, reject_add_request: bool = False):
         hoshino.logger.exception(e)
 
 
+async def set_up_an_administrator(ev: CQEvent, user_id: int, enable: bool):
+    try:
+        await hoshino.get_bot().set_group_admin(
+            group_id=ev.group_id,
+            user_id=user_id,
+            enable=enable,
+            self_id=ev.seld_id
+        )
+    except ActionFailed as e:
+        hoshino.logger.error(f'设置失败 retcode={e.retcode}')
+    except Exception as e:
+        hoshino.logger.exception(e)
+
+
+async def modify_group_name(ev: CQEvent, title: str):
+    pass
+
+
 async def silence(ev: CQEvent, ban_time, skip_su=True):
     try:
         if skip_su and ev.user_id in hoshino.config.SUPERUSERS:
