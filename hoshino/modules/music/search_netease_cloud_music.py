@@ -21,7 +21,9 @@ class NetEase:
             'Referer': 'http://music.163.com/search/',
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) '
             + 'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 '
-            + 'Safari/537.36'
+            + 'Safari/537.36',
+            'X-Real-IP': '39.156.69.79',
+            'X-Forwarded-For': '39.156.69.79',
         }
         self.cookies = {
             'appver': '1.5.2'
