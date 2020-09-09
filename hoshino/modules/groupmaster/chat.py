@@ -56,9 +56,14 @@ async def seina(bot, ev):
 #     await bot.send(ev, '那个朋友是不是你弟弟？')
 #     await util.silence(ev, 30)
 
-@sv.on_fullmatch(('可爱', '你好棒', '你真棒', '真厉害', '好聪明'), only_to_me=True)
+@sv.on_fullmatch(('可爱', '你好棒', '你真棒', '真厉害', '好聪明', '你真可爱', '真可爱'), only_to_me=True)
 async def you_are_awesome(bot, ev):
     await bot.send(ev, '诶嘿嘿~~~')
+
+
+@sv.on_fullmatch((('你好', '你好呀', '你好啊')), only_to_me=True)
+async def greet(bot, ev):
+    await bot.send(ev, '你好呀~', at_sender=True)
 
 
 @sv.on_fullmatch('我好了')
