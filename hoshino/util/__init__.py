@@ -34,7 +34,7 @@ def load_config(inbuilt_file_var):
         return {}
 
 
-async def delete_msg(ev: CQEvent, message_id):
+async def delete_msg(ev: CQEvent, message_id: int):
     try:
         await hoshino.get_bot().delete_msg(
             self_id=ev.self_id, message_id=message_id)

@@ -1,5 +1,5 @@
-import random
 import datetime
+import random
 import re
 
 from aiocqhttp.message import MessageSegment, unescape
@@ -66,13 +66,29 @@ async def greet(bot, ev):
     await bot.send(ev, '你好呀~', at_sender=True)
 
 
+@sv.on_fullmatch(((
+    '你是猪', 'baka', 'bakabot', '你爹是大猪头'
+)), only_to_me=True)
+async def scolded(bot, ev):
+    await util.silence(ev, 5*60, skip_su=False)
+    await bot.send(ev, '哼~!', at_sender=True)
+
+
+@sv.on_fullmatch('ghs')
+async def ghs(bot, ev):
+    await bot.send(ev, '干好事')
+
+
 @sv.on_fullmatch('我好了')
 async def nihaole(bot, ev):
     await bot.send(ev, '不许好，憋回去！')
     await util.silence(ev, 30)
 
 
-@sv.on_fullmatch(('早', '早安', '早上好', '早安哦', '早上好呀', '早呀', 'good morning'))
+@sv.on_fullmatch((
+    '早', '早安', '早上好', '早安哦', '早上好呀',
+    '早呀', '早啊', '早啊早啊', 'good morning', '大家早'
+))
 async def good_morning(bot, ev):
     now_hour = datetime.datetime.now().hour
     if 0 <= now_hour < 6:
@@ -85,7 +101,40 @@ async def good_morning(bot, ev):
         await bot.send(ev, f'已经{now_hour}点了, 不早了哦~', at_sender=True)
 
 
-@sv.on_fullmatch(('晚上好', '晚上好啊', '晚上好呀', 'good evening'))
+@sv.on_fullmatch(('中午好', '午好', 'good afternoon'))
+async def good_afternoon(bot, ev):
+    now_hour = datetime.datetime.now().hour
+    if 12 <= now_hour < 14:
+        await bot.send(ev, '中午好呀', at_sender=True)
+    else:
+        await bot.send(ev, '现在可不是中午哦', at_sender=True)
+
+
+@sv.on_fullmatch(('午安'))
+async def wuan(bot, ev):
+    now_hour = datetime.datetime.now().hour
+    if 12 <= now_hour < 14:
+        await bot.send(ev, '中午要好好休息哦', at_sender=True)
+    else:
+        await bot.send(ev, '现在可不是中午哦', at_sender=True)
+
+
+@sv.on_fullmatch(('下午好'))
+async def xiawuhao(bot, ev):
+    now_hour = datetime.datetime.now().hour
+    if 15 <= now_hour < 18:
+        await bot.send(ev, '下午好! 要继续努力哟~', at_sender=True)
+    elif 18 <= now_hour < 24:
+        await bot.send(ev, f'{now_hour}点啦, 已经是晚上了哦', at_sender=True)
+    elif 6 <= now_hour < 15:
+        await bot.send(ev, '还不到下午呢, 清醒一点啦~', at_sender=True)
+    else:
+        await bot.send(ev, f'唔...你不用睡觉的吗?', at_sender=True)
+
+
+@sv.on_fullmatch((
+    '晚好', '晚上好', '晚上好啊', '晚上好呀', 'good evening'
+))
 async def good_evening(bot, ev):
     now_hour = datetime.datetime.now().hour
     if 18 <= now_hour < 24:
@@ -98,7 +147,9 @@ async def good_evening(bot, ev):
         await bot.send(ev, f'现在才{now_hour}点, 还不到晚上哦~', at_sender=True)
 
 
-@sv.on_fullmatch(('晚安', '晚安哦', '晚安啦', 'good night'))
+@sv.on_fullmatch((
+    '晚安', '晚安哦', '晚安啦', 'good night', '晚安呀', '睡咯', '睡啦', '大家晚安'
+))
 async def good_night(bot, ev):
     now_hour = datetime.datetime.now().hour
     if now_hour <= 3 or now_hour >= 21:
@@ -111,6 +162,11 @@ async def good_night(bot, ev):
         await bot.send(ev, f'现在才{now_hour}点, 再努力一会儿吧~(ง •_•)ง', at_sender=True)
 
 # ============================================ #
+
+
+@sv.on_keyword((('打你', '打死', '傻')), only_to_me=True)
+async def hit_someone(bot, ctx):
+    await bot.send(ctx, '我的柴刀呢?', at_sender=True)
 
 
 @sv.on_keyword(('女装'), only_to_me=True)
