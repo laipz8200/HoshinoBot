@@ -2,11 +2,7 @@
 Reference link:
 https://github.com/bluetomlee/NetEase-MusicBox/blob/master/src/api.py
 """
-import json
-
-import httpx
-
-from hoshino import logger
+from hoshino import logger, aiorequests
 
 
 class NetEase:
@@ -29,19 +25,17 @@ class NetEase:
             'appver': '1.5.2'
         }
 
-    def httpRequest(self, action, query=None):
-        connection = httpx.post(
+    async def httpRequest(self, action, query=None):
+        resp = await aiorequests.post(
             action,
             data=query,
             headers=self.header,
             timeout=3
         )
+        data = await resp.json()
+        return data
 
-        connection.encoding = "UTF-8"
-        connection = json.loads(connection.text)
-        return connection
-
-    def search(self, s, stype=1, offset=0, total='true'):
+    async def search(self, s, stype=1, offset=0, total='true'):
         action = 'http://music.163.com/api/search/get/web'
         data = {
             's': s,
@@ -50,13 +44,13 @@ class NetEase:
             'total': total,
             'limit': 60
         }
-        return self.httpRequest(action, data)
+        return await self.httpRequest(action, data)
 
 
-def search(keyword: str, result_num: int = 3):
+async def search(keyword: str, result_num: int = 3):
     n = NetEase()
     song_list = []
-    data = n.search(keyword)
+    data = await n.search(keyword)
     if data and data['code'] == 200:
         try:
             for item in data['result']['songs'][:result_num]:
