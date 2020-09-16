@@ -1,5 +1,4 @@
 import asyncio
-from collections import UserDict
 
 from aiocqhttp.message import MessageSegment
 
@@ -12,7 +11,10 @@ sv = Service(
     help_="群管理功能，bot作为群主时有效\n"
           "[申请头衔XXX]向群主申请一个头衔\n"
           "[授予头衔XXX@成员]发放头衔给成员\n"
-          "[开除@成员]将成员开除出群"
+          "[开除@成员]将成员开除出群\n"
+          "[@成员 禁言]将成员禁言五分钟\n"
+          "[解除禁言@成员]解除成员的禁言\n"
+          "[戳一戳@成员]戳一戳"
 )
 
 
@@ -69,7 +71,7 @@ async def kick(bot, ev):
             await util.kick(ev, user_id=uid)
 
 
-@sv.on_prefix('授予头衔')
+@sv.on_prefix(('授予头衔', '颁发头衔', '发布头衔', '给予头衔'))
 async def awarded_title(bot, ev):
     if not priv.check_priv(ev, priv.ADMIN):
         await bot.send(ev, '只有管理员可以颁发头衔哟~')
@@ -133,7 +135,7 @@ async def remove_banned(bot, ev):
     await bot.send(ev, ''.join([f'{MessageSegment.at(uid)}' for uid in user_id]) + ' 出来放风咯~')
 
 
-@sv.on_prefix(['戳'])
+@sv.on_prefix(('戳', '戳一戳'))
 async def stamp(bot, ev):
     user_id = extract_target_members(ev.message)
     if user_id and user_id != 'all':
