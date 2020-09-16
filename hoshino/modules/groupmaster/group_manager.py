@@ -162,3 +162,16 @@ async def cancel_administrator(bot, ev):
         await util.set_up_an_administrator(ev, user_id=user_id, enable=False)
     else:
         await bot.send(ev, '喵？')
+
+
+@sv.on_prefix(['戳'])
+async def stamp(bot, ev):
+    user_id = None
+    for msg_seg in ev.message:
+        if msg_seg.type == 'at':
+            if msg_seg.data['qq'] == 'all':
+                return
+            else:
+                user_id = msg_seg.data['qq']
+    if user_id:
+        await bot.send(ev, MessageSegment(type_='poke', data={'qq': user_id}))
