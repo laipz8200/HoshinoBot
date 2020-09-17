@@ -4,7 +4,7 @@
 
 A qqbot for Princess Connect Re:Dive (and other usage :)
 
-<img src="https://img.shields.io/badge/Hoshino-v2-brightgreen"/> <img src="https://img.shields.io/badge/Yobot-v3.6.4-brightgreen" /> <img src="https://img.shields.io/badge/Powered_by-Ice--Cirno-orange"/> <img src="https://img.shields.io/badge/Improved_by---LAN---blue"/>
+<img src="https://img.shields.io/badge/HoshinoBot-v2-brightgreen"/> <img src="https://img.shields.io/badge/Yobot-v3.6.4-brightgreen" /> <img src="https://img.shields.io/badge/Powered_by-Ice--Cirno-orange"/> <img src="https://img.shields.io/badge/Improved_by---LAN---blue"/>
 
 ## 简介
 
