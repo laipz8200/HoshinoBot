@@ -231,9 +231,18 @@ async def new_year_burst(bot, ev):
 @sv.on_prefix(('戳', '戳一戳'))
 async def send_poke(bot, ev):
     user_id = extract_target_members(ev.message)
+    text = extract_plain_text(ev.message)
+    m = re.match(r'[x|X](\d+)', text)
     if user_id and user_id != 'all':
-        for uid in user_id:
-            await bot.send(ev, MessageSegment(type_='poke', data={'qq': uid}))
+        if not m:
+            for uid in user_id:
+                await bot.send(ev, MessageSegment(type_='poke', data={'qq': uid}))
+        elif m and int(m.group(1)) <= 5:
+            uid = user_id[0]
+            for _ in range(int(m.group(1))):
+                await bot.send(ev, MessageSegment(type_='poke', data={'qq': uid}))
+        else:
+            await bot.send(ev, '好累的样子, 我不!')
 
 # ============================================ #
 
