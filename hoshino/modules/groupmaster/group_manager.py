@@ -135,10 +135,10 @@ async def remove_banned(bot, ev):
     await bot.send(ev, ''.join([f'{MessageSegment.at(uid)}' for uid in user_id]) + ' 出来放风咯~')
 
 
-@sv.on_prefix('修改群名')
+@sv.on_prefix(('修改群名', '把群名改成'))
 async def change_group_name(bot, ev):
     if not priv.check_priv(ev, priv.ADMIN):
-        await bot.send(ev, '只有管理员可以颁发头衔哟~')
+        await bot.send(ev, '你好像没有权限修改群名OxO')
         return
     name = extract_plain_text(ev.message)
     if not name:
