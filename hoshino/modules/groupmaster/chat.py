@@ -23,6 +23,28 @@ async def say_hello(session):
 sv = Service('chat', visible=False)
 
 
+def extract_plain_text(message: list) -> str:
+    """提取纯文本"""
+    text = []
+    for msg_seg in message:
+        if msg_seg.type == 'text' and msg_seg.data['text']:
+            text.append(msg_seg.data['text'].strip())
+    return ''.join(text)
+
+
+def extract_target_members(message: list) -> str:
+    """提取目标成员"""
+    targets = []
+    for msg_seg in message:
+        if msg_seg.type == 'at' and msg_seg.data['qq'] == 'all':
+            return 'all'
+        if msg_seg.type == 'at':
+            targets.append(msg_seg.data['qq'])
+    return targets
+
+# ============================================ #
+
+
 @sv.on_fullmatch('沙雕机器人')
 async def say_sorry(bot, ev):
     await bot.send(ev, 'ごめんなさい！嘤嘤嘤(〒︿〒)')
@@ -203,11 +225,31 @@ async def new_year_burst(bot, ev):
     if random.random() < 0.02:
         await bot.send(ev, nyb_player)
 
+# ============================================ #
 
-# ================ test ====================
 
-@sv.on_fullmatch('test_rec')
-async def test_rec(bot, ev):
+@sv.on_prefix(('戳', '戳一戳'))
+async def send_poke(bot, ev):
+    user_id = extract_target_members(ev.message)
+    if user_id and user_id != 'all':
+        for uid in user_id:
+            await bot.send(ev, MessageSegment(type_='poke', data={'qq': uid}))
+
+# ============================================ #
+
+
+@sv.on_notice('notify')
+async def get_poke(session):
+    ev = session.event
+    if ev['sub_type'] == 'poke' and ev['self_id'] == ev['target_id']:
+        uid = ev['user_id']
+        await session.send(MessageSegment(type_='poke', data={'qq': uid}))
+
+# ===================test===================== #
+
+
+@sv.on_fullmatch('test_send_mp3')
+async def test_send_mp3(bot, ev):
     await bot.send(ev, R.rec('YUUDACHI/5.mp3').cqcode)
 
 
@@ -237,9 +279,15 @@ async def echo(bot, ev):
         await bot.send(ev, MessageSegment(type_=_type, data=_dict))
 
 
-@sv.on_fullmatch('test_chat')
-async def test_chat(bot, ev):
+@sv.on_fullmatch('test_del_msg')
+async def test_del_msg(bot, ev):
     msg = await bot.send(ev, '测试消息')
     import asyncio
     await asyncio.sleep(3)
     await util.delete_msg(ev, msg['message_id'])
+
+
+@sv.on_fullmatch('test_reply_msg')
+async def test_reply_msg(bot, ev):
+    reply = MessageSegment(type_='reply', data={'id': ev.message_id})
+    await bot.send(ev, f'{reply}做什么呀?')
