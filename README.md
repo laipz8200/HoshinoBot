@@ -51,6 +51,12 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - 猜头像
 - 猜语音
 
+
+### 消息订阅
+
+- 私聊订阅提醒工作总结和下班
+- 群聊订阅早晨问好和晚上提醒休息
+
 ### 会战拓展
 
 - 记轴器
