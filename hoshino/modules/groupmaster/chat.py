@@ -255,6 +255,17 @@ async def get_poke(session):
         uid = ev['user_id']
         await session.send(MessageSegment(type_='poke', data={'qq': uid}))
 
+
+@sv.on_notice('group_recall')
+async def antiwithdraw(session):
+    ev = session.event
+    gid = ev['group_id']
+    if ev['operator_id'] != ev['self_id']:
+        await session.send(
+            f'{MessageSegment.at(ev["user_id"])} '
+            f'怀孕了就说出来, 大家一起帮你想办法嘛{MessageSegment.face(id_=22)}'
+        )
+
 # ============================================ #
 
 
