@@ -21,7 +21,7 @@ async def rank_sheet(bot, ev):
         await bot.send(ev, '\n请问您要查询哪个服务器的rank表？\n*日rank表\n*台rank表\n*陆rank表', at_sender=True)
         return
     msg = [
-        '\n※表格仅供参考，升r有风险，强化需谨慎\n※一切以会长要求为准——',
+        '※表格仅供参考，升r有风险，强化需谨慎\n※一切以会长要求为准——',
     ]
     if is_jp:
         msg.append('※不定期搬运自图中Q群\n※广告为原作者推广，与本bot无关\nR18-3 rank表：')

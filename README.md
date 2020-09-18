@@ -50,6 +50,8 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - 猜角色
 - 猜头像
 - 猜语音
+- 群聊/私聊消息推送
+- 撤回响应
 
 
 ### 消息订阅
