@@ -52,6 +52,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - 猜语音
 - 群聊/私聊消息推送
 - 撤回响应
+- 升级版加密通话
 
 
 ### 消息订阅

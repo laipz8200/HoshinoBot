@@ -89,5 +89,5 @@ async def decherulize(bot, ev: CQEvent):
     # msg = util.filt_message(escape(cheru2str(s)))
     msg = escape(cheru2str(s))
     message = await bot.send(ev, msg, at_sender=True)
-    await asyncio.sleep(20)
+    await asyncio.sleep(8)
     await util.delete_msg(ev, message['message_id'])
