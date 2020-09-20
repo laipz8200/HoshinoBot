@@ -1,6 +1,7 @@
 import asyncio
 
 from aiocqhttp.message import MessageSegment
+from requests.sessions import extract_cookies_to_jar
 
 from hoshino import Service, config, priv, util
 
@@ -12,6 +13,8 @@ sv = Service(
           "[申请头衔XXX]向群主申请一个头衔\n"
           "[授予头衔XXX@成员]发放头衔给成员\n"
           "[开除@成员]将成员开除出群\n"
+          "[设置管理@成员]将成员设置为管理员\n"
+          "[取消管理@成员]取消成员的管理权限\n"
           "[@成员 禁言]将成员禁言五分钟\n"
           "[解除禁言@成员]解除成员的禁言\n"
           "[修改群名XXX]把群名改为XXX"
@@ -146,3 +149,35 @@ async def change_group_name(bot, ev):
         return
     else:
         await bot.set_group_name(group_id=ev.group_id, group_name=name)
+
+
+@sv.on_prefix('设置管理', only_to_me=True)
+async def set_administrator(bot, ev):
+    if not priv.check_priv(ev, priv.ADMIN):
+        await bot.send(ev, '你好像没有权限')
+        return
+    user_id = extract_target_members(ev.message)
+    if user_id == 'all':
+        await bot.send(ev, '太多了太多了, 不行!')
+        return
+    else:
+        user_id = list(map(lambda u: int(u), user_id))
+    for uid in user_id:
+        await bot.set_group_admin(group_id=ev.group_id, user_id=uid, enable=True)
+    await bot.send(ev, ''.join([f'{MessageSegment.at(uid)}' for uid in user_id]) + ' 要努力工作哦!')
+
+
+@sv.on_prefix('取消管理', only_to_me=True)
+async def cancel_administrator(bot, ev):
+    if not priv.check_priv(ev, priv.ADMIN):
+        await bot.send(ev, '你好像没有权限')
+        return
+    user_id = extract_target_members(ev.message)
+    if user_id == 'all':
+        await bot.send(ev, '太多了太多了, 不行!')
+        return
+    else:
+        user_id = list(map(lambda u: int(u), user_id))
+    for uid in user_id:
+        await bot.set_group_admin(group_id=ev.group_id, user_id=uid, enable=False)
+    await bot.send(ev, ''.join([f'{MessageSegment.at(uid)}' for uid in user_id]) + ' 恭喜退休!')

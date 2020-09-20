@@ -29,6 +29,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - 对某成员执行5分钟禁言
 - 解除某成员的禁言
 - 修改群名*
+- 设置/取消管理员
 
 > 需要bot具有管理权限，部分功能需要bot作为群主
 
