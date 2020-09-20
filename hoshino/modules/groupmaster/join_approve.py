@@ -1,5 +1,7 @@
-from nonebot import on_request, RequestSession
+from nonebot import RequestSession, message, on_request
+
 import hoshino
+
 
 @on_request('group.add')
 async def join_approve(session: RequestSession):
@@ -10,6 +12,8 @@ async def join_approve(session: RequestSession):
     for k in cfg[gid].get('keywords', []):
         if k in session.event.comment:
             await session.approve()
+            for uid in hoshino.config.SUPERUSERS:
+                await hoshino.get_bot().send_private_msg(user_id=uid, message=f'群{gid}新成员{session.event["user_id"]}的入群口令为{k}')
             # 审批入群后发送欢迎信息
             welcomes = hoshino.config.groupmaster.increase_welcome
             if gid in welcomes:
