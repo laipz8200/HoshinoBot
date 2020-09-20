@@ -145,7 +145,7 @@ async def wuan(bot, ev):
 @sv.on_fullmatch(('下午好'))
 async def xiawuhao(bot, ev):
     now_hour = datetime.datetime.now().hour
-    if 15 <= now_hour < 18:
+    if 14 <= now_hour < 18:
         await bot.send(ev, '下午好! 要继续努力哟~', at_sender=True)
     elif 18 <= now_hour < 24:
         await bot.send(ev, f'{now_hour}点啦, 已经是晚上了哦', at_sender=True)
