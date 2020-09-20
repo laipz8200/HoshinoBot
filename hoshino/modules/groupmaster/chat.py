@@ -268,6 +268,14 @@ async def antiwithdraw(session):
             f'怀孕了就说出来, 大家一起帮你想办法嘛{MessageSegment.face(id_=22)}'
         )
 
+
+@sv.on_notice('notify.honor')
+async def dragon_king(session: NoticeSession):
+    ev = session.event
+    if ev['honor_type'] == 'talkative':
+        await session.send(f'新的龙王出现了! {MessageSegment.at(ev.user_id)}')
+
+
 # ============================================ #
 
 
