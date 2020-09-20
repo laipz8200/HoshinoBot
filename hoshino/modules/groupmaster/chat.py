@@ -1,12 +1,13 @@
 import datetime
-from hoshino.config import SUBSCRIBER, SUBSCRIBER_GROUP
 import random
 import re
 
 from aiocqhttp.message import MessageSegment, unescape
 from nonebot import on_command
 
-from hoshino import R, Service, priv, util, get_bot
+from hoshino import R, Service, get_bot, priv, util, logger
+from hoshino.config import SUBSCRIBER, SUBSCRIBER_GROUP
+from hoshino.typing import NoticeSession
 
 
 # basic function for debug, not included in Service('chat')
@@ -248,12 +249,13 @@ async def send_poke(bot, ev):
 # ============================================ #
 
 
-@sv.on_notice('notify')
-async def get_poke(session):
+@sv.on_notice('notify.poke')
+async def get_poke(session: NoticeSession):
     ev = session.event
-    if ev['sub_type'] == 'poke' and ev['self_id'] == ev['target_id']:
-        uid = ev['user_id']
-        await session.send(MessageSegment(type_='poke', data={'qq': uid}))
+    logger.info(f'被{ev.user_id}戳了')
+    if ev.self_id == ev['target_id']:
+        uid = ev.user_id
+        await session.send(MessageSegment(type_='poke', data={'qq': str(uid)}))
 
 
 @sv.on_notice('group_recall')
