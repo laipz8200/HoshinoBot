@@ -269,10 +269,10 @@ async def antiwithdraw(session):
         )
 
 
-@sv.on_notice('notify.honor')
+@sv.on_notice('notify')
 async def dragon_king(session: NoticeSession):
     ev = session.event
-    if ev['honor_type'] == 'talkative':
+    if ev['sub_type'] == 'honor' and ev['honor_type'] == 'talkative':
         await session.send(f'新的龙王出现了! {MessageSegment.at(ev.user_id)}')
 
 
