@@ -37,8 +37,10 @@ try:
     with open(_pool_config_file, encoding='utf8') as f:
         _group_pool = json.load(f)
 except FileNotFoundError as e:
-    sv.logger.warning('group_pool_config.json not found, will create when needed.')
+    sv.logger.warning(
+        'group_pool_config.json not found, will create when needed.')
 _group_pool = defaultdict(lambda: DEFAULT_POOL, _group_pool)
+
 
 def dump_pool_config():
     with open(_pool_config_file, 'w', encoding='utf8') as f:
@@ -50,18 +52,22 @@ gacha_10_aliases = ('抽十连', '十连', '十连！', '十连抽', '来个十�
 gacha_1_aliases = ('单抽', '单抽！', '来发单抽', '来个单抽', '来次单抽', '扭蛋单抽', '单抽扭蛋')
 gacha_300_aliases = ('抽一井', '来一井', '来发井', '抽发井', '天井扭蛋', '扭蛋天井')
 
+
 @sv.on_fullmatch(('卡池资讯', '查看卡池', '看看卡池', '康康卡池', '看看up', '看看UP'))
 async def gacha_info(bot, ev: CQEvent):
     gid = str(ev.group_id)
     gacha = Gacha(_group_pool[gid])
     up_chara = gacha.up
-    up_chara = map(lambda x: str(chara.fromname(x, star=3).icon.cqcode) + x, up_chara)
+    up_chara = map(lambda x: str(chara.fromname(
+        x, star=3).icon.cqcode) + x, up_chara)
     up_chara = '\n'.join(up_chara)
     await bot.send(ev, f"本期卡池主打的角色：\n{up_chara}\nUP角色合计={(gacha.up_prob/10):.1f}% 3★出率={(gacha.s3_prob)/10:.1f}%")
 
 
 POOL_NAME_TIP = '请选择以下卡池\n> 切换卡池jp\n> 切换卡池tw\n> 切换卡池b\n> 切换卡池mix'
-@sv.on_prefix(('切换卡池', '选择卡池'))
+
+
+@sv.on_fullmatch(('切换卡池', '选择卡池'))
 async def set_pool(bot, ev: CQEvent):
     if not priv.check_priv(ev, priv.ADMIN):
         await bot.finish(ev, '只有群管理才能切换卡池', at_sender=True)
@@ -97,7 +103,7 @@ async def check_tenjo_num(bot, ev: CQEvent):
         await bot.finish(ev, TENJO_EXCEED_NOTICE, at_sender=True)
 
 
-@sv.on_prefix(gacha_1_aliases, only_to_me=True)
+@sv.on_fullmatch(gacha_1_aliases, only_to_me=True)
 async def gacha_1(bot, ev: CQEvent):
 
     await check_jewel_num(bot, ev)
@@ -105,7 +111,8 @@ async def gacha_1(bot, ev: CQEvent):
 
     gid = str(ev.group_id)
     gacha = Gacha(_group_pool[gid])
-    chara, hiishi = gacha.gacha_one(gacha.up_prob, gacha.s3_prob, gacha.s2_prob)
+    chara, hiishi = gacha.gacha_one(
+        gacha.up_prob, gacha.s3_prob, gacha.s2_prob)
     silence_time = hiishi * 60
 
     res = f'{chara.icon.cqcode} {chara.name} {"★"*chara.star}'
@@ -114,7 +121,7 @@ async def gacha_1(bot, ev: CQEvent):
     await bot.send(ev, f'素敵な仲間が増えますよ！\n{res}', at_sender=True)
 
 
-@sv.on_prefix(gacha_10_aliases, only_to_me=True)
+@sv.on_fullmatch(gacha_10_aliases, only_to_me=True)
 async def gacha_10(bot, ev: CQEvent):
     SUPER_LUCKY_LINE = 170
 
@@ -147,7 +154,7 @@ async def gacha_10(bot, ev: CQEvent):
     await silence(ev, silence_time)
 
 
-@sv.on_prefix(gacha_300_aliases, only_to_me=True)
+@sv.on_fullmatch(gacha_300_aliases, only_to_me=True)
 async def gacha_300(bot, ev: CQEvent):
 
     await check_tenjo_num(bot, ev)
