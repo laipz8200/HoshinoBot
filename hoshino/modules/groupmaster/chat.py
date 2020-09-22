@@ -261,7 +261,6 @@ async def get_poke(session: NoticeSession):
 @sv.on_notice('group_recall')
 async def antiwithdraw(session):
     ev = session.event
-    gid = ev['group_id']
     if ev['operator_id'] != ev['self_id']:
         await session.send(
             f'{MessageSegment.at(ev["user_id"])} '
@@ -279,11 +278,11 @@ async def dragon_king(session: NoticeSession):
 # ============================================ #
 
 
-@sv.scheduled_job('cron', hour=22)
+@sv.scheduled_job('cron', hour=23)
 async def group_good_night():
     bot = get_bot()
     for gid in SUBSCRIBER_GROUP:
-        await bot.send_group_msg(group_id=gid, message='晚上十点, 该准备睡觉了哦~')
+        await bot.send_group_msg(group_id=gid, message='晚上十一点, 该准备睡觉了哦~')
 
 
 @sv.scheduled_job('cron', hour=8)
