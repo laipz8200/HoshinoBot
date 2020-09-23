@@ -1,4 +1,7 @@
-from hoshino import Service, priv
+import asyncio
+
+from aiocqhttp.message import MessageSegment
+from hoshino import Service, priv, logger
 from hoshino.typing import CQEvent
 from .dao.timelinesqlitedao import TLSqliteDao
 from .dao.dbnamesqlitedao import TLDBNameDao
@@ -91,7 +94,17 @@ async def search_timeline(bot, ev: CQEvent):
             r = db._find_all()
             msg = ['编号|boss|伤害|备注|赞同数']
             msg.extend(r)
-            await bot.send(ev, '\n'.join(msg))
+            mid = None
+            for i in range(0, len(msg), 6):
+                await asyncio.sleep(1)
+                if mid:
+                    reply = MessageSegment(
+                        type_='reply', data={'id': mid})
+                    ctx = await bot.send(ev, f'{reply}' + '\n'.join(msg[i: i+6]))
+                    mid = ctx['message_id']
+                else:
+                    ctx = await bot.send(ev, '\n'.join(msg[i: i+6]))
+                    mid = ctx['message_id']
         elif s.startswith('T'):
             r = db._find_by_id(tid2id(s))
             msg = f'{r[0]}, {r[1]}伤害, {r[3]}\n'
@@ -100,8 +113,19 @@ async def search_timeline(bot, ev: CQEvent):
             r = db._find_by_bossname(s)
             msg = ['编号|boss|伤害|备注|赞同数']
             msg.extend(r)
-            await bot.send(ev, '\n'.join(msg))
-    except:
+            mid = None
+            for i in range(0, len(msg), 6):
+                await asyncio.sleep(1)
+                if mid:
+                    reply = MessageSegment(
+                        type_='reply', data={'id': mid})
+                    ctx = await bot.send(ev, f'{reply}' + '\n'.join(msg[i: i+6]))
+                    mid = ctx['message_id']
+                else:
+                    ctx = await bot.send(ev, '\n'.join(msg[i: i+6]))
+                    mid = ctx['message_id']
+    except Exception as e:
+        logger.error(e)
         await bot.send(ev, '查找轴失败，请输入\"帮助pcr轴\"查看指令的使用方式')
 
 
