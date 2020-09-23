@@ -122,7 +122,7 @@ async def good_morning(bot, ev):
     elif 21 <= now_hour < 24:
         await bot.send(ev, '早...嗯? 啊? 诶~~~~~~?', at_sender=True)
     else:
-        await bot.send(ev, f'已经{now_hour}点了, 不早了哦~', at_sender=True)
+        await bot.send(ev, f'{R.img("zsmz.png").cqcode}\n你看看现在几点了!')
 
 
 @sv.on_fullmatch(('中午好', '午好', 'good afternoon'))
