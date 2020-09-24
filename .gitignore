@@ -23,7 +23,6 @@ hoshino/modules/yobot
 hoshino/modules/setu/r18.py
 hoshino/modules/botmanage/reloader.py
 hoshino/modules/generator
-hoshino/modules/pcrmiddaymusic/pushed_music.json
 
 # 暂时删除的代码
 TRASH/
