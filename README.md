@@ -56,6 +56,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - 撤回响应
 - 升级版加密通话
 - 新龙王提醒*
+- 抽签运势
 
 
 ### 消息订阅
