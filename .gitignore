@@ -22,7 +22,9 @@ hoshino/modules/pcrclanbattle/clanbattlev3
 hoshino/modules/yobot
 hoshino/modules/setu/r18.py
 hoshino/modules/botmanage/reloader.py
-hoshino/modules/generator
+hoshino/modules/nbnhhsh
+hoshino/modules/aircon/aircon.json
+hoshino/modules/memegenerator/meme/
 
 # 暂时删除的代码
 TRASH/

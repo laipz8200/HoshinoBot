@@ -57,6 +57,9 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - 升级版加密通话
 - 新龙王提醒*
 - 抽签运势
+- 群空调
+- 表情包生成器
+- 文案生成器
 
 
 ### 消息订阅
@@ -71,11 +74,9 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 
 ### 未公开组件或功能
 
-- 表情包生成器
-- 文案生成器
-- 群空调
 - yobot
 - r18 setu
 - 回复消息取代at_sender
+- 能不能好好说话
 
-> 未公开组件通常为GitHub上收集到的可直接使用的插件，或部分开发中/测试中的新功能
+> 未公开组件通常为开发中/测试中的新功能或因为各种原因不适合公开传播的功能
