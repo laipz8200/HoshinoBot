@@ -73,26 +73,14 @@ async def modify_group_name(ev: CQEvent, title: str):
     pass
 
 
-async def silence(ev: CQEvent, ban_time, skip_su=True):
+async def silence(ev: CQEvent, ban_time, skip_su=True, user_id: int = None):
     try:
         if skip_su and ev.user_id in hoshino.config.SUPERUSERS:
             return
+        uid = ev.user_id if user_id is None else user_id
         await hoshino.get_bot().set_group_ban(
             self_id=ev.self_id, group_id=ev.group_id,
-            user_id=ev.user_id, duration=ban_time)
-    except ActionFailed as e:
-        hoshino.logger.error(f'禁言失败 retcode={e.retcode}')
-    except Exception as e:
-        hoshino.logger.exception(e)
-
-
-async def members_banned(ev: CQEvent, user_id, ban_time, skip_su=True):
-    try:
-        if skip_su and user_id in hoshino.config.SUPERUSERS:
-            return
-        await hoshino.get_bot().set_group_ban(
-            self_id=ev.self_id, group_id=ev.group_id,
-            user_id=user_id, duration=ban_time)
+            user_id=uid, duration=ban_time)
     except ActionFailed as e:
         hoshino.logger.error(f'禁言失败 retcode={e.retcode}')
     except Exception as e:
@@ -110,6 +98,24 @@ async def set_group_special_title(
         await hoshino.get_bot().send(ev, f'头衔"{special_title}"已经设置好啦!', at_sender=True)
     except ActionFailed as e:
         hoshino.logger.error(f'头衔设置失败 retcode={e.retcode}')
+        await hoshino.get_bot().send(ev, '好像出了什么问题, 对不起~ T^T', at_sender=True)
+    except Exception as e:
+        hoshino.logger.exception(e)
+        await hoshino.get_bot().send(ev, '好像出了什么问题, 对不起~ T^T', at_sender=True)
+
+
+async def set_group_card(
+        ev: CQEvent, card_content: str, user_id: int = None):
+    try:
+        uid = ev.user_id if user_id is None else user_id
+        await hoshino.get_bot().set_group_card(
+            self_id=ev.self_id, group_id=ev.group_id,
+            user_id=uid,
+            card=card_content)
+        hoshino.logger.info(f'QQ: {uid} 的名片 => {card_content}')
+        await hoshino.get_bot().send(ev, f'把[CQ:at,qq={uid}]的名片改成"{card_content}"啦~')
+    except ActionFailed as e:
+        hoshino.logger.error(f'名片设置失败 retcode={e.retcode}')
         await hoshino.get_bot().send(ev, '好像出了什么问题, 对不起~ T^T', at_sender=True)
     except Exception as e:
         hoshino.logger.exception(e)

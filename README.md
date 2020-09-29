@@ -31,6 +31,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - 修改群名*
 - 告知入群审批结果
 - 设置/取消管理员
+- 修改成员群名片
 
 > 需要bot具有管理权限，部分功能需要bot作为群主
 

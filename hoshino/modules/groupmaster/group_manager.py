@@ -1,8 +1,6 @@
 import asyncio
 
 from aiocqhttp.message import MessageSegment
-from requests.sessions import extract_cookies_to_jar
-
 from hoshino import Service, config, priv, util
 
 sv = Service(
@@ -17,6 +15,7 @@ sv = Service(
           "[取消管理@成员]取消成员的管理权限\n"
           "[@成员 禁言]将成员禁言五分钟\n"
           "[解除禁言@成员]解除成员的禁言\n"
+          "[修改名片xxx@成员]修改成员的名片\n"
           "[修改群名XXX]把群名改为XXX"
 )
 
@@ -116,7 +115,7 @@ async def mute(bot, ev):
             # await bot.send(ev, '我才不会对主人下手呢!')
             continue
         else:
-            await util.members_banned(ev, uid, 60*5)
+            await util.silence(ev, user_id=uid, ban_time=60 * 5)
 
 
 @sv.on_prefix('解除禁言')
@@ -134,7 +133,7 @@ async def remove_banned(bot, ev):
     else:
         user_id = list(map(lambda u: int(u), user_id))
     for uid in user_id:
-        await util.members_banned(ev, uid, 0)
+        await util.silence(ev, ban_time=0, user_id=uid)
     await bot.send(ev, ''.join([f'{MessageSegment.at(uid)}' for uid in user_id]) + ' 出来放风咯~')
 
 
@@ -181,3 +180,24 @@ async def cancel_administrator(bot, ev):
     for uid in user_id:
         await bot.set_group_admin(group_id=ev.group_id, user_id=uid, enable=False)
     await bot.send(ev, ''.join([f'{MessageSegment.at(uid)}' for uid in user_id]) + ' 恭喜退休!')
+
+
+@sv.on_prefix(('修改名片', '修改群名片', '设置名片', '设置群名片'))
+async def modify_business_card(bot, ev):
+    if not priv.check_priv(ev, priv.ADMIN):
+        await bot.send(ev, '只有管理员可以修改名片哟~')
+        return
+    user_id = extract_target_members(ev.message)
+    card_content = extract_plain_text(ev.message)
+    if not user_id:
+        user_id = ev.user_id
+    elif user_id == 'all':
+        await bot.send(ev, '诶~? 你是想累死我吗!?')
+        return
+    else:
+        user_id = int(user_id[0])
+    if not card_content:
+        await bot.send(ev, '无名氏桑? 想清楚名字再来吧~')
+        return
+    else:
+        await util.set_group_card(ev, card_content=card_content, user_id=user_id)
