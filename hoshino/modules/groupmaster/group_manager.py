@@ -184,9 +184,6 @@ async def cancel_administrator(bot, ev):
 
 @sv.on_prefix(('修改名片', '修改群名片', '设置名片', '设置群名片'))
 async def modify_business_card(bot, ev):
-    if not priv.check_priv(ev, priv.ADMIN):
-        await bot.send(ev, '只有管理员可以修改名片哟~')
-        return
     user_id = extract_target_members(ev.message)
     card_content = extract_plain_text(ev.message)
     if not user_id:
@@ -195,9 +192,11 @@ async def modify_business_card(bot, ev):
         await bot.send(ev, '诶~? 你是想累死我吗!?')
         return
     else:
+        if not priv.check_priv(ev, priv.ADMIN):
+            await bot.send(ev, '只有管理员可以修改名片哟~')
+            return
         user_id = int(user_id[0])
     if not card_content:
         await bot.send(ev, '无名氏桑? 想清楚名字再来吧~')
-        return
     else:
         await util.set_group_card(ev, card_content=card_content, user_id=user_id)
