@@ -61,6 +61,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - 群空调
 - 表情包生成器
 - 文案生成器
+- 送礼物
 
 
 ### 消息订阅

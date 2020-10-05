@@ -52,6 +52,12 @@ async def say_sorry(bot, ev):
     await bot.send(ev, 'ごめんなさい！嘤嘤嘤(〒︿〒)')
 
 
+@sv.on_fullmatch('贴贴', only_to_me=True)
+async def tietie(bot, ev):
+    await bot.send(ev, '贴贴成功! 记得回礼哦~')
+    await bot.send(ev, MessageSegment(type_='gift', data={'qq': str(ev.user_id), 'id': 0}))
+
+
 @sv.on_fullmatch(('老婆', 'waifu', 'laopo'), only_to_me=True)
 async def chat_waifu(bot, ev):
     if not priv.check_priv(ev, priv.SUPERUSER):
