@@ -1,4 +1,5 @@
 import asyncio
+from os import O_NONBLOCK
 
 from aiocqhttp.message import MessageSegment
 from hoshino import Service, config, priv, util
@@ -10,13 +11,13 @@ sv = Service(
     help_="群管理功能，bot作为群主时有效\n"
           "[申请头衔XXX]向群主申请一个头衔\n"
           "[授予头衔XXX@成员]发放头衔给成员\n"
-          "[开除@成员]将成员开除出群\n"
-          "[设置管理@成员]将成员设置为管理员\n"
-          "[取消管理@成员]取消成员的管理权限\n"
+          "[@bot开除@成员]将成员开除出群\n"
+          "[@bot设置管理@成员]将成员设置为管理员\n"
+          "[@bot取消管理@成员]取消成员的管理权限\n"
           "[@成员 禁言]将成员禁言五分钟\n"
-          "[解除禁言@成员]解除成员的禁言\n"
-          "[修改名片xxx@成员]修改成员的名片\n"
-          "[修改群名XXX]把群名改为XXX"
+          "[@bot解除禁言@成员]解除成员的禁言\n"
+          "[@bot修改名片xxx@成员]修改成员的名片\n"
+          "[@bot修改群名XXX]把群名改为XXX"
 )
 
 
@@ -49,7 +50,7 @@ async def to_apply_for_title(bot, ev):
         await util.set_group_special_title(ev, special_title=special_title)
 
 
-@sv.on_prefix(('kick', '踢出', '踢了', '开除', '欢送'))
+@sv.on_prefix(('kick', '踢出', '踢了', '开除', '欢送'), only_to_me=True)
 async def kick(bot, ev):
     if not priv.check_priv(ev, priv.SUPERUSER):
         await bot.send(ev, '我才不会听你的命令呢! 哼~', at_sender=True)
@@ -73,7 +74,7 @@ async def kick(bot, ev):
             await util.kick(ev, user_id=uid)
 
 
-@sv.on_prefix(('授予头衔', '颁发头衔', '发布头衔', '给予头衔'))
+@sv.on_prefix(('授予头衔', '颁发头衔', '发布头衔', '给予头衔'), only_to_me=True)
 async def awarded_title(bot, ev):
     if not priv.check_priv(ev, priv.ADMIN):
         await bot.send(ev, '只有管理员可以颁发头衔哟~')
@@ -118,7 +119,7 @@ async def mute(bot, ev):
             await util.silence(ev, user_id=uid, ban_time=60 * 5)
 
 
-@sv.on_prefix('解除禁言')
+@sv.on_prefix('解除禁言', only_to_me=True)
 async def remove_banned(bot, ev):
     if not priv.check_priv(ev, priv.SUPERUSER):
         await bot.send(ev, '我只听主人的话哦~', at_sender=True)
@@ -137,7 +138,7 @@ async def remove_banned(bot, ev):
     await bot.send(ev, ''.join([f'{MessageSegment.at(uid)}' for uid in user_id]) + ' 出来放风咯~')
 
 
-@sv.on_prefix(('修改群名', '把群名改成'))
+@sv.on_prefix(('修改群名', '把群名改成'), only_to_me=True)
 async def change_group_name(bot, ev):
     if not priv.check_priv(ev, priv.ADMIN):
         await bot.send(ev, '你好像没有权限修改群名OxO')
@@ -182,7 +183,7 @@ async def cancel_administrator(bot, ev):
     await bot.send(ev, ''.join([f'{MessageSegment.at(uid)}' for uid in user_id]) + ' 恭喜退休!')
 
 
-@sv.on_prefix(('修改名片', '修改群名片', '设置名片', '设置群名片'))
+@sv.on_prefix(('修改名片', '修改群名片', '设置名片', '设置群名片', '把我的名片改成'), only_to_me=True)
 async def modify_business_card(bot, ev):
     user_id = extract_target_members(ev.message)
     card_content = extract_plain_text(ev.message)
