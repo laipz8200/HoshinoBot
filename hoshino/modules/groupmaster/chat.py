@@ -52,6 +52,11 @@ async def say_sorry(bot, ev):
     await bot.send(ev, 'ごめんなさい！嘤嘤嘤(〒︿〒)')
 
 
+@sv.on_fullmatch(('怎么会这样', 'zmhzy'))
+async def zmhzy(bot, ev):
+    await bot.send(ev, R.img('zmhzy.jpg').cqcode)
+
+
 @sv.on_fullmatch('贴贴', only_to_me=True)
 async def tietie(bot, ev):
     await bot.send(ev, '贴贴成功! 记得回礼哦~')
