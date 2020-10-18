@@ -6,12 +6,11 @@ from .. import chara
 
 class Gacha(object):
 
-    def __init__(self, pool_name:str = "MIX"):
+    def __init__(self, pool_name: str = "MIX"):
         super().__init__()
         self.load_pool(pool_name)
 
-
-    def load_pool(self, pool_name:str):
+    def load_pool(self, pool_name: str):
         config = util.load_config(__file__)
         pool = config[pool_name]
         self.up_prob = pool["up_prob"]
@@ -23,8 +22,7 @@ class Gacha(object):
         self.star2 = pool["star2"]
         self.star1 = pool["star1"]
 
-
-    def gacha_one(self, up_prob:int, s3_prob:int, s2_prob:int, s1_prob:int = None):
+    def gacha_one(self, up_prob: int, s3_prob: int, s2_prob: int, s1_prob: int = None):
         '''
         sx_prob: x星概率，要求和为1000
         up_prob: UP角色概率（从3星划出）
@@ -49,7 +47,6 @@ class Gacha(object):
         else:
             return chara.fromname(random.choice(self.star1), 1), 1
 
-
     def gacha_ten(self):
         result = []
         hiishi = 0
@@ -67,9 +64,8 @@ class Gacha(object):
 
         return result, hiishi
 
-
     def gacha_tenjou(self):
-        result = {'up': [], 's3': [], 's2':[], 's1':[]}
+        result = {'up': [], 's3': [], 's2': [], 's1': []}
         first_up_pos = 999999
         up = self.up_prob
         s3 = self.s3_prob
@@ -79,7 +75,8 @@ class Gacha(object):
             c, y = self.gacha_one(up, s3, s2, s1)
             if 100 == y:
                 result['up'].append(c)
-                first_up_pos = min(first_up_pos, 10 * ((i+1) // 9) + ((i+1) % 9))
+                first_up_pos = min(first_up_pos, 10 *
+                                   ((i+1) // 9) + ((i+1) % 9))
             elif 50 == y:
                 result['s3'].append(c)
             elif 10 == y:

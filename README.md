@@ -35,15 +35,6 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 
 > 需要bot具有管理权限，部分功能需要bot作为群主
 
-### 点歌
-
-- 返回QQ音乐和网易云搜索结果各3首
-- 返回QQ音乐搜索结果5条
-- 返回网易云音乐搜索结果5条
-- 一次分享多首音乐
-
-> 无需额外依赖
-
 ### 群聊娱乐
 
 - 早中晚问好
@@ -62,6 +53,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - 表情包生成器
 - 文案生成器
 - 送礼物
+- 点歌
 
 
 ### 消息订阅

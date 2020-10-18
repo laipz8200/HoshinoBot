@@ -16,7 +16,6 @@ logger = log.new_logger('chara', hoshino.config.DEBUG)
 UNKNOWN = 1000
 UnavailableChara = {
     1067,   # 穗希
-    1068,   # 晶
     1069,   # 霸瞳
     1072,   # 可萝爹
     1073,   # 拉基拉基
@@ -59,12 +58,13 @@ class Roster:
 
     def guess_id(self, name):
         """@return: id, name, score"""
-        name, score = process.extractOne(name, self._all_name_list)
+        name, score = process.extractOne(
+            name, self._all_name_list, processor=util.normalize_str)
         return self._roster[name], name, score
 
     def parse_team(self, namestr):
         """@return: List[ids], unknown_namestr"""
-        namestr = util.normalize_str(namestr)
+        namestr = util.normalize_str(namestr.strip())
         team = []
         unknown = []
         while namestr:
@@ -103,7 +103,7 @@ def is_npc(id_):
     if id_ in UnavailableChara:
         return True
     else:
-        return not ((1000 < id_ < 1200) or (1800 < id_ < 1900))
+        return not ((1000 < id_ < 1200) or (1700 < id_ < 1900))
 
 
 def gen_team_pic(team, size=64, star_slot_verbose=True):
@@ -124,7 +124,6 @@ def download_chara_icon(id_, star):
     except Exception as e:
         logger.error(f'Failed to download {url}. {type(e)}')
         logger.exception(e)
-        return
     if 200 == rsp.status_code:
         img = Image.open(BytesIO(rsp.content))
         img.save(save_path)
