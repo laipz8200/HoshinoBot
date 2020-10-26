@@ -6,7 +6,7 @@ from hoshino.typing import CQEvent
 from .dao.timelinesqlitedao import TLSqliteDao
 from .dao.dbnamesqlitedao import TLDBNameDao
 
-sv = Service('timeline', bundle='pcr轴', enable_on_default=False, help_='''
+sv = Service('timeline', bundle='pcr轴管理', enable_on_default=False, help_='''
 传轴 <A/B><1/2/3/4/5> <伤害> <说明> <轴>
 查轴 [A/B][1/2/3/4/5]
 看轴 [编号]
