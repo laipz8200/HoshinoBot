@@ -1,5 +1,5 @@
+import typing
 import asyncio
-from os import O_NONBLOCK
 
 from aiocqhttp.message import MessageSegment
 from hoshino import Service, config, priv, util
@@ -30,7 +30,7 @@ def extract_plain_text(message: list) -> str:
     return ''.join(text)
 
 
-def extract_target_members(message: list) -> str:
+def extract_target_members(message: list) -> typing.Union[str, list]:
     """提取目标成员"""
     targets = []
     for msg_seg in message:

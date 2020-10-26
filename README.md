@@ -64,6 +64,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 ### 会战拓展
 
 - 记轴器
+- 农场登记
 
 
 ### 未公开组件或功能
