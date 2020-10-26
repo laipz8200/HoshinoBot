@@ -10,7 +10,7 @@ if not farm_file.exists():
     with farm_file.open('w') as f:
         json.dump([], f, ensure_ascii=False)
 
-sv = Service('farm', bundle='pcr农场登记', enable_on_default=False, help_='''
+sv = Service('farm', bundle='pcr农场', enable_on_default=False, help_='''
 [@bot 农场登记 @成员...] 登记去农场的成员
 [@bot 农场登出 @成员...] 登记从农场回来的成员
 [@bot 农场查询] 查询去了农场的成员
