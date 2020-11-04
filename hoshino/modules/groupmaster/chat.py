@@ -289,32 +289,32 @@ async def dragon_king(session: NoticeSession):
 # ============================================ #
 
 
-@sv.scheduled_job('cron', hour=23)
-async def group_good_night():
-    bot = get_bot()
-    for gid in SUBSCRIBER_GROUP:
-        await bot.send_group_msg(group_id=gid, message='晚上十一点, 该准备睡觉了哦~')
+# @sv.scheduled_job('cron', hour=23)
+# async def group_good_night():
+#     bot = get_bot()
+#     for gid in SUBSCRIBER_GROUP:
+#         await bot.send_group_msg(group_id=gid, message='晚上十一点, 该准备睡觉了哦~')
 
 
-@sv.scheduled_job('cron', hour=8)
-async def good_morning_group():
-    bot = get_bot()
-    for gid in SUBSCRIBER_GROUP:
-        await bot.send_group_msg(group_id=gid, message='早哦! 新的一天开始了呢!')
+# @sv.scheduled_job('cron', hour=8)
+# async def good_morning_group():
+#     bot = get_bot()
+#     for gid in SUBSCRIBER_GROUP:
+#         await bot.send_group_msg(group_id=gid, message='早哦! 新的一天开始了呢!')
 
 
-@sv.scheduled_job('cron', hour=17)
-async def fill_in_the_daily_report():
-    bot = get_bot()
-    for uid in SUBSCRIBER:
-        await bot.send_private_msg(user_id=uid, message='记得填写日报哦')
+# @sv.scheduled_job('cron', hour=17)
+# async def fill_in_the_daily_report():
+#     bot = get_bot()
+#     for uid in SUBSCRIBER:
+#         await bot.send_private_msg(user_id=uid, message='记得填写日报哦')
 
 
-@sv.scheduled_job('cron', hour=18)
-async def remind_to_leave_work():
-    bot = get_bot()
-    for uid in SUBSCRIBER:
-        await bot.send_private_msg(user_id=uid, message='下班了哦, 工作辛苦啦~')
+# @sv.scheduled_job('cron', hour=18)
+# async def remind_to_leave_work():
+#     bot = get_bot()
+#     for uid in SUBSCRIBER:
+#         await bot.send_private_msg(user_id=uid, message='下班了哦, 工作辛苦啦~')
 
 # ===================test===================== #
 
