@@ -40,7 +40,6 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - 早中晚问好
 - 一些日常对话的回应
 - 戳一戳/回戳*
-- 午间音乐推送
 - 猜角色
 - 猜头像
 - 猜语音
@@ -64,6 +63,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 ### 会战拓展
 
 - 记轴器
+- 排名查询
 - 农场登记
 
 
