@@ -1,5 +1,6 @@
 import re
 import time
+import asyncio
 from collections import defaultdict
 from PIL import Image, ImageDraw, ImageFont
 
@@ -88,12 +89,12 @@ def render_atk_def_teams(entries, border_pix=5):
     return im
 
 
-async def _arena_query(bot, ev: CQEvent, region: int):
+async def _arena_query(bot, ev: CQEvent, region: int, retry: int = 0):
 
     arena.refresh_quick_key_dic()
     uid = ev.user_id
 
-    if not lmt.check(uid):
+    if not lmt.check(uid) and retry == 0:
         await bot.finish(ev, '您查询得过于频繁，请稍等片刻', at_sender=True)
     lmt.start_cd(uid)
 
@@ -133,6 +134,11 @@ async def _arena_query(bot, ev: CQEvent, region: int):
 
     # 处理查询结果
     if res is None:
+        if 1701 in defen and retry < 5:
+            await asyncio.sleep(1)
+            sv.logger.info(f'队伍包含环奈，正在重试，第{retry + 1}次')
+            await _arena_query(bot, ev, region, retry + 1)
+            return 
         await bot.finish(ev, '查询出错，请联系维护组调教\n请先移步pcrdfans.com进行查询', at_sender=True)
     if not len(res):
         await bot.finish(ev, '抱歉没有查询到解法\n※没有作业说明随便拆 发挥你的想象力～★\n作业上传请前往pcrdfans.com', at_sender=True)
