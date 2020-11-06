@@ -204,11 +204,6 @@ async def hit_someone(bot, ctx):
     await bot.send(ctx, '我的柴刀呢?', at_sender=True)
 
 
-@sv.on_keyword(('女装'), only_to_me=True)
-async def womens_clothing(bot, ctx):
-    await bot.send(ctx, '示范给我看看呀~', at_sender=True)
-
-
 @sv.on_keyword(('确实', '有一说一', 'u1s1', 'yysy'))
 async def chat_queshi(bot, ctx):
     if random.random() < 0.05:
