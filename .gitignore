@@ -25,6 +25,7 @@ hoshino/modules/botmanage/reloader.py
 hoshino/modules/nbnhhsh
 hoshino/modules/aircon/aircon.json
 hoshino/modules/memegenerator/meme/
+hoshino/modules/clanrank/clanrank.json
 
 # 暂时删除的代码
 TRASH/
