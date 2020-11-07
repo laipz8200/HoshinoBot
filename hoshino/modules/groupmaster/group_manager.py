@@ -110,13 +110,10 @@ async def mute(bot, ev):
         return
     else:
         user_id = list(map(lambda u: int(u), user_id))
-    await bot.send(ev, ''.join([f'{MessageSegment.at(uid)}' for uid in user_id]) + ' 请安静一会儿啦~')
+    # await bot.send(ev, ''.join([f'{MessageSegment.at(uid)}' for uid in user_id]) + ' 请安静一会儿啦~')
     for uid in user_id:
-        if uid in config.SUPERUSERS and len(user_id) > 1:
-            # await bot.send(ev, '我才不会对主人下手呢!')
-            continue
-        else:
-            await util.silence(ev, user_id=uid, ban_time=60 * 5)
+        await util.silence(ev, user_id=uid, ban_time=60*5, skip_su=True)
+        await asyncio.sleep(1)
 
 
 @sv.on_prefix('解除禁言', only_to_me=True)
