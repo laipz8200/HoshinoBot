@@ -100,10 +100,11 @@ async def search_timeline(bot, ev: CQEvent):
                 if mid:
                     reply = MessageSegment(
                         type_='reply', data={'id': mid})
-                    ctx = await bot.send(ev, f'{reply}' + '\n'.join(msg[i: i+6]))
+                    # ctx = await bot.send(ev, f'{reply}' + '\n'.join(msg[i: i+6]))
+                    ctx = await bot.send(ev, '\n'.join(msg[i: i+3]))
                     mid = ctx['message_id']
                 else:
-                    ctx = await bot.send(ev, '\n'.join(msg[i: i+6]))
+                    ctx = await bot.send(ev, '\n'.join(msg[i: i+3]))
                     mid = ctx['message_id']
         elif s.startswith('T'):
             r = db._find_by_id(tid2id(s))
@@ -119,10 +120,11 @@ async def search_timeline(bot, ev: CQEvent):
                 if mid:
                     reply = MessageSegment(
                         type_='reply', data={'id': mid})
-                    ctx = await bot.send(ev, f'{reply}' + '\n'.join(msg[i: i+6]))
+                    # ctx = await bot.send(ev, f'{reply}' + '\n'.join(msg[i: i+6]))
+                    ctx = await bot.send(ev, '\n'.join(msg[i: i+3]))
                     mid = ctx['message_id']
                 else:
-                    ctx = await bot.send(ev, '\n'.join(msg[i: i+6]))
+                    ctx = await bot.send(ev, '\n'.join(msg[i: i+3]))
                     mid = ctx['message_id']
     except Exception as e:
         logger.error(e)
