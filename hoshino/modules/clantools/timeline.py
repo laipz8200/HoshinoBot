@@ -6,13 +6,13 @@ from hoshino.typing import CQEvent
 from .dao.timelinesqlitedao import TLSqliteDao
 from .dao.dbnamesqlitedao import TLDBNameDao
 
-sv = Service('timeline', bundle='pcr轴管理', enable_on_default=False, help_='''
-传轴 <A/B><1/2/3/4/5> <伤害> <说明> <轴>
-查轴 [A/B][1/2/3/4/5]
+sv = Service('timeline', bundle='pcr轴', enable_on_default=False, help_='''
+传轴 <A|B><1-5> <伤害> <说明> <轴>
+查轴 [A|B][1-5]
 看轴 [编号]
 改轴 <编号> <伤害> <说明> <轴>
 删轴 <编号>
-赞轴 <编号> [赞同数,非管理员只能填1/-1]
+赞轴 <编号> [赞同数,非管理员只能填1|-1]
 查看轴库
 切换轴库 <新轴库名>
 '''.strip())

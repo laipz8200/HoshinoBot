@@ -24,7 +24,7 @@ TOP_MANUAL = '''
 [帮助pcr查询]
 [帮助pcr娱乐]
 [帮助pcr订阅]
-[帮助pcr轴管理]
+[帮助pcr轴]
 [帮助pcr农场]
 [帮助kancolle]
 [帮助通用]
@@ -60,5 +60,6 @@ async def send_help(bot, ev: CQEvent):
         await bot.send(ev, TOP_MANUAL)
     elif bundle_name in bundles:
         msg = gen_bundle_manual(bundle_name, bundles[bundle_name], ev.group_id)
+        sv.logger.info(f'help content: {msg}')
         await bot.send(ev, msg)
     # else: ignore
