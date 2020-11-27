@@ -20,6 +20,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 
 - 重新启动
 - echo(快速测试CQ码)
+- 状态显示 # by [Chendihe4975](https://github.com/Chendihe4975)
 
 ### 群组管理
 
@@ -75,3 +76,4 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - 能不能好好说话
 
 > 未公开组件通常为开发中/测试中的新功能或因为各种原因不适合公开传播的功能
+> 关于本项目引用的插件，会逐渐补全原作者信息，如有遗漏请联系或直接提交pr
