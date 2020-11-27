@@ -1,24 +1,15 @@
-import re
-import time
 import asyncio
-from collections import defaultdict
-from PIL import Image, ImageDraw, ImageFont
+import re
 
 import hoshino
-from hoshino import Service, R
+from hoshino import R
 from hoshino.typing import *
 from hoshino.util import FreqLimiter, concat_pic, pic2b64, silence
+from PIL import Image, ImageDraw, ImageFont
 
 from .. import chara
-
-sv_help = '''
-[怎么拆] 接防守队角色名 查询竞技场解法
-[点赞] 接作业id 评价作业
-[点踩] 接作业id 评价作业
-'''.strip()
-sv = Service('pcr-arena', help_=sv_help, bundle='pcr查询')
-
 from . import arena
+from .server import sv
 
 lmt = FreqLimiter(5)
 
@@ -138,7 +129,7 @@ async def _arena_query(bot, ev: CQEvent, region: int, retry: int = 0):
             await asyncio.sleep(1)
             sv.logger.info(f'队伍包含环奈，正在重试，第{retry + 1}次')
             await _arena_query(bot, ev, region, retry + 1)
-            return 
+            return
         await bot.finish(ev, '查询出错，请联系维护组调教\n请先移步pcrdfans.com进行查询', at_sender=True)
     if not len(res):
         await bot.finish(ev, '抱歉没有查询到解法\n※没有作业说明随便拆 发挥你的想象力～★\n作业上传请前往pcrdfans.com', at_sender=True)
