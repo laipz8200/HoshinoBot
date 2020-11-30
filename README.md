@@ -20,7 +20,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 
 - 重新启动
 - echo(快速测试CQ码)
-- 状态显示 # by [Chendihe4975](https://github.com/Chendihe4975)
+- 状态显示 #  by [Chendihe4975](https://github.com/Chendihe4975)
 
 ### 群组管理
 
@@ -54,6 +54,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - 文案生成器
 - 送礼物
 - 点歌
+- 问答  # by [yuyumoko](https://github.com/yuyumoko)
 
 
 ### 消息订阅
