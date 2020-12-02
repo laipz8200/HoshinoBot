@@ -14,7 +14,7 @@ from . import util
 from hoshino import Service  # 如果使用hoshino的分群管理取消注释这行
 
 #
-sv = Service('eqa')  # 如果使用hoshino的分群管理取消注释这行
+sv = Service('eqa',bundle='pcr群管理', help_='群内快速问答', enable_on_default=False)  # 如果使用hoshino的分群管理取消注释这行
 
 config = util.get_config()
 db = util.init_db(config['cache_dir'])

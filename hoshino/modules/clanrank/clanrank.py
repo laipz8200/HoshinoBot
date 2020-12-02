@@ -10,14 +10,14 @@ from hoshino.typing import CQEvent
 from aiocqhttp.exceptions import Error as CQHttpError
 from .boss import calc_hp
 from .msg_temp import *
-sv_query = Service("clanrank-query", enable_on_default=True, visible=True, help_='''
+sv_query = Service("clanrank-query", enable_on_default=False, visible=True, help_='''
 【查询公会XXX】查询公会名包含XXX的公会
 【查询会长XXX】查询会长名字包含XXX的公会
 【查询排名114】查询排名为114的公会的信息
 【分数线】查询分数线
 '''.strip())
 
-sv_push = Service("clanrank-push", enable_on_default=True, visible=True, help_='''
+sv_push = Service("clanrank-push", enable_on_default=False, visible=True, help_='''
 以下仅限国服B站，渠道服/日台服均不可用
 如果不知道会长ID可以先通过通用查询来查询会长的ID
 【绑定公会】后跟会长ID来绑定公会, 公会战期间每日5:30会自动推送前一日排名
