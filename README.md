@@ -16,11 +16,13 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 
 > `*` 标记为需要新版`go-cqhttp`
 
-### Bot管理
+### 开发相关功能
 
 - 重新启动
 - echo(快速测试CQ码)
 - 状态显示 #  by [Chendihe4975](https://github.com/Chendihe4975)
+- `R.rec()`用于快速发送语音
+- `R.img().flash`用于发送闪照
 
 ### 群组管理
 

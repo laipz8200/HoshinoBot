@@ -49,7 +49,7 @@ async def setu(bot, ev):
     # conditions all ok, send a setu.
     pic = get_setu()
     try:
-        await bot.send(ev, pic.cqcode)
+        await bot.send(ev, pic.flash)
     except CQHttpError:
         sv.logger.error(f"发送图片{pic.path}失败")
         try:

@@ -46,6 +46,15 @@ class ResImg(ResObj):
                 hoshino.logger.exception(e)
                 return MessageSegment.text('[图片出错]')
 
+    @property
+    def flash(self) -> MessageSegment:
+        if hoshino.config.RES_PROTOCOL == 'http':
+            return MessageSegment(type_='image', data={'url': self.url, 'type': 'flash'})
+        elif hoshino.config.RES_PROTOCOL == 'file':
+            return MessageSegment(type_='image', data={'file': f'file:///{os.path.abspath(self.path)}', 'type': 'flash'})
+        else:
+            return MessageSegment.text('[图片出错]')
+
     def open(self) -> Image:
         try:
             return Image.open(self.path)
