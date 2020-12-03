@@ -1,12 +1,17 @@
 import base64
-import json
 import os
 import time
 
 from hoshino import aiorequests, config
 
 from .. import chara
-from .server import sv
+from . import sv
+
+try:
+    import ujson as json
+except:
+    import json
+
 
 logger = sv.logger
 
@@ -100,8 +105,7 @@ def get_true_id(quick_key: str, user_id: int) -> str:
     if not isinstance(quick_key, str) or len(quick_key) != 5:
         return None
     qkey = (quick_key + "===").encode()
-    qkey = int.from_bytes(base64.b32decode(
-        qkey, casefold=True, map01=b"I"), "little")
+    qkey = int.from_bytes(base64.b32decode(qkey, casefold=True, map01=b"I"), "little")
     qkey ^= mask
     return quick_key_dic.get(qkey, None)
 
@@ -143,8 +147,11 @@ async def do_query(id_list, user_id, region=1):
         logger.error(f"Arena query failed.\nResponse={res}\nPayload={payload}")
         raise aiorequests.HTTPError(response=res)
 
+    result = res.get("data", {}).get("result")
+    if result is None:
+        return None
     ret = []
-    for entry in res["data"]["result"]:
+    for entry in result:
         eid = entry["id"]
         likes = get_likes(eid)
         dislikes = get_dislikes(eid)
