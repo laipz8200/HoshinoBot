@@ -23,8 +23,8 @@ sv = Service(
 cool_down = datetime.timedelta(minutes=3)  # 冷却时间
 expire = datetime.timedelta(minutes=2)
 
-temp = {}
-last_check = {}
+temp: typing.Dict[str, typing.Any] = {}
+last_check: typing.Dict[str, datetime.datetime] = {}
 
 
 @sv.on_prefix(['选', '选择', '选歌'])
@@ -90,21 +90,22 @@ async def to_apply_for_title(bot, ev):
             msg = ['我找到了这些~!']
             flag, flag2 = True, True
             if song_list[0]['type'] == '163':
-                msg.append('=== 网易云音乐 ===')
+                msg.append('===== NetEase')
             for idx, song in enumerate(song_list):
                 if song['type'] == 'qq' and flag:
-                    msg.append('=== QQ 音乐 ===')
+                    msg.append('===== QQ')
                     flag = False
                 if song['type'] == 'custom' and song['subtype'] == 'migu' and flag2:
-                    msg.append('=== 咪咕音乐 ===')
+                    msg.append('===== Migu')
                     flag2 = False
                 msg.append(
-                    f'{idx}. {song["name"]} - {song["artists"]}'
+                    f'{idx}.{song["name"]}-{song["artists"]}'
                 )
                 temp[key][str(idx)] = song
-            msg.append('=' * 13)
+            msg.append('')
             msg.append('发送[选择]+序号来听歌吧~')
-            await bot.send(ev, '\n'.join(msg), at_sender=True)
+            sv.logger.info(msg)
+            await bot.send(ev, '\n'.join(msg))
             last_check[str(ev.group_id)] = datetime.datetime.now()
             last_check[str(ev.user_id)] = datetime.datetime.now()
         else:
@@ -138,7 +139,7 @@ async def search_netease_cloud_music(bot, ev):
                     f'{idx}. {song["name"]} - {song["artists"]}'
                 )
                 temp[key][str(idx)] = song
-            msg.append('=' * 13)
+            msg.append('')
             msg.append('发送[选择]+序号来听歌吧~')
             await bot.send(ev, '\n'.join(msg), at_sender=True)
             last_check[str(ev.group_id)] = datetime.datetime.now()
@@ -174,7 +175,7 @@ async def search_qq_music(bot, ev):
                     f'{idx}. {song["name"]} - {song["artists"]}'
                 )
                 temp[key][str(idx)] = song
-            msg.append('=' * 13)
+            msg.append('')
             msg.append('发送[选择]+序号来听歌吧~')
             await bot.send(ev, '\n'.join(msg), at_sender=True)
             last_check[str(ev.group_id)] = datetime.datetime.now()
@@ -210,7 +211,7 @@ async def search_migu_music(bot, ev):
                     f'{idx}. {song["title"]} - {song["content"]}'
                 )
                 temp[key][str(idx)] = song
-            msg.append('=' * 13)
+            msg.append('')
             msg.append('发送[选择]+序号来听歌吧~')
             await bot.send(ev, '\n'.join(msg), at_sender=True)
             last_check[str(ev.group_id)] = datetime.datetime.now()
@@ -221,13 +222,13 @@ async def search_migu_music(bot, ev):
 
 async def search_music(music_name: str) -> typing.Union[list, dict]:
     result = []
-    song_list = await search163(music_name)
+    song_list = await search163(music_name, 3)
     if song_list:
         result += song_list
-    song_list = await searchqq(music_name)
+    song_list = await searchqq(music_name, 3)
     if song_list:
         result += song_list
-    song_list = await searchmigu(music_name)
-    if song_list:
-        result += song_list
+    # song_list = await searchmigu(music_name, 2)
+    # if song_list:
+    #     result += song_list
     return result
