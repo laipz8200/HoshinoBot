@@ -345,15 +345,7 @@ async def echo(bot, ev):
         await bot.send(ev, MessageSegment(type_=_type, data=_dict))
 
 
-@sv.on_fullmatch('test_del_msg')
-async def test_del_msg(bot, ev):
-    msg = await bot.send(ev, '测试消息')
-    import asyncio
-    await asyncio.sleep(3)
-    await util.delete_msg(ev, msg['message_id'])
-
-
-@sv.on_fullmatch('test_reply_msg')
+# @sv.on_fullmatch('test_tts_msg')
 async def test_reply_msg(bot, ev):
-    reply = MessageSegment(type_='reply', data={'id': ev.message_id})
-    await bot.send(ev, f'{reply}做什么呀?')
+    tts = MessageSegment(type_='tts', data={'text': '肥肠抱歉本视频由于以下原因导致无法正常播放'})
+    await bot.send(ev, tts)
