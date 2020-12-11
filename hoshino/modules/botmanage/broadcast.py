@@ -2,15 +2,16 @@ import asyncio
 
 import hoshino
 from hoshino.service import sucmd
-from hoshino.typing import CommandSession, CQHttpError
+from hoshino.typing import CommandSession
 
 
 @sucmd('broadcast', aliases=('bc', '广播'))
 async def broadcast(session: CommandSession):
     msg = session.current_arg
     for sid in hoshino.get_self_ids():
-        gl = await session.bot.get_group_list(self_id=sid)
-        gl = [ g['group_id'] for g in gl ]
+        # gl = await session.bot.get_group_list(self_id=sid)
+        # gl = [ g['group_id'] for g in gl ]
+        gl = hoshino.config.botmanage.gl
         for g in gl:
             await asyncio.sleep(0.5)
             try:
