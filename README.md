@@ -59,8 +59,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 
 ### 消息订阅
 
-- 私聊订阅提醒工作总结和下班
-- 群聊订阅早晨问好和晚上提醒休息
+- 日程订阅  # by [zyujs](https://github.com/zyujs)
 
 ### 会战拓展
 

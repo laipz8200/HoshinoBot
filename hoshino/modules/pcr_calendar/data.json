@@ -1,0 +1,21 @@
+{
+  "1046561676": {
+    "server_list": [],
+    "hour": 8,
+    "minute": 0
+  },
+  "175222650": {
+    "server_list": [
+      "cn"
+    ],
+    "hour": 8,
+    "minute": 0
+  },
+  "148789052": {
+    "server_list": [
+      "tw"
+    ],
+    "hour": 8,
+    "minute": 0
+  }
+}
