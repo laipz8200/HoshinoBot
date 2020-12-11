@@ -35,28 +35,26 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - 告知入群审批结果
 - 设置/取消管理员
 - 修改成员群名片
+- 支持指定接收广播的群组
 
 > 需要bot具有管理权限，部分功能需要bot作为群主
 
 ### 群聊娱乐
 
-- 早中晚问好
-- 一些日常对话的回应
+- 早中晚问好和一些日常对话的回应
 - 戳一戳/回戳*
-- 猜角色
-- 猜头像
-- 猜语音
-- 群聊/私聊消息推送
-- 撤回响应
-- 升级版加密通话
+- PCR小游戏，猜角色猜头像猜语音，分别具有排行榜  # by [GWYOG](https://github.com/GWYOG)
+- 撤回响应，怀孕了就说出来嘛
+- 升级版加密通话, 需要bot能够撤回成员消息
 - 新龙王提醒*
-- 抽签运势
-- 群空调
-- 表情包生成器
-- 文案生成器
-- 送礼物
-- 点歌
-- 问答  # by [yuyumoko](https://github.com/yuyumoko)
+- PCR角色抽签运势
+- 表情包生成器  # by [xhl6699](https://github.com/xhl6699)
+- 文案生成器，营销号/舔狗日记/记仇/狗屁不通生成器  # by [Cappuccilo](https://github.com/Cappuccilo)
+- 贴贴，送礼物
+- 点歌，网易QQ咪咕音乐
+- 问答，自定义问题和回答  # by [yuyumoko](https://github.com/yuyumoko)
+- 随机图片，自动补充和更新图库
+- X月不冲提醒，关爱群友身体健康
 
 
 ### 消息订阅
@@ -67,14 +65,14 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 ### 会战拓展
 
 - 记轴器
-- 排名查询
+- 排名查询  # by [var-mixe](https://github.com/var-mixer)
 - 农场登记
 
 
 ### 未公开组件或功能
 
 - yobot
-- r18 setu
+- setu
 - 回复消息取代at_sender
 - 能不能好好说话
 

@@ -20,7 +20,7 @@ static/
 # hoshino/modules/deepchat/
 hoshino/modules/pcrclanbattle/clanbattlev3
 hoshino/modules/yobot
-hoshino/modules/setu/r18.py
+hoshino/modules/setu/setu.py
 hoshino/modules/botmanage/reloader.py
 hoshino/modules/nbnhhsh
 hoshino/modules/aircon/aircon.json
