@@ -34,7 +34,6 @@ async def eqa_main(*params):
 
     # 处理回答所有人的问题
     keyword = util.get_msg_keyword(config['comm']['answer_all'], msg, True)
-    sv.logger.info(f'answer all {keyword}')
     if keyword:
         msg = await ask(ctx, keyword, False)
         if msg:
@@ -42,7 +41,6 @@ async def eqa_main(*params):
 
     # 处理回答自己的问题
     keyword = util.get_msg_keyword(config['comm']['answer_me'], msg, True)
-    sv.logger.info(f'answer me {keyword}')
     if keyword:
         msg = await ask(ctx, keyword, True)
         if msg:
@@ -50,7 +48,6 @@ async def eqa_main(*params):
 
     # 回复消息
     ans = await answer(ctx)
-    sv.logger.info(f'ans={ans}')
     if isinstance(ans, list):
         return await bot.send(ctx, ans)
     # elif isinstance(ans, str):
@@ -148,7 +145,6 @@ async def answer(ctx):
     # 获取到当前群的列表 判断是否来自该群 或者是否是超级管理员
     # 超级管理员设置的是否为所有群问答
     ans_list = util.filter_list(ans_list, lambda x: (group_id == x['group_id']) or (x['user_id'] in admins if super_admin_is_all_group else False))
-    sv.logger.info(f'ans_list={ans_list}')
 
     # 木有在这群
     if not ans_list:
