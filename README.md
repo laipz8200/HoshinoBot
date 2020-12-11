@@ -57,9 +57,10 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - X月不冲提醒，关爱群友身体健康
 
 
-### 消息订阅
+### 订阅/查询
 
 - 日程订阅  # by [zyujs](https://github.com/zyujs)
+- PCR WIKI  # by [Cappuccilo](https://github.com/Cappuccilo)
 
 ### 会战拓展
 
