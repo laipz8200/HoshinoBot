@@ -30,7 +30,7 @@ async def send_news(bot, ev, spider:BaseSpider, max_num=5):
         await spider.get_update()
     news = spider.item_cache
     news = news[:min(max_num, len(news))]
-    await bot.send(ev, spider.format_items(news), at_sender=True)
+    await bot.send(ev, spider.format_items(news), at_sender=False)
 
 @svtw.on_fullmatch(('台服新闻', '台服日程'))
 async def send_sonet_news(bot, ev):
