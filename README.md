@@ -61,6 +61,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 
 - 日程订阅  # by [zyujs](https://github.com/zyujs)
 - PCR WIKI  # by [Cappuccilo](https://github.com/Cappuccilo)
+- 国服JJC场次查询  #  by [Chendihe4975](https://github.com/Chendihe4975)
 
 ### 会战拓展
 
