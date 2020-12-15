@@ -61,13 +61,14 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 
 - 日程订阅  # by [zyujs](https://github.com/zyujs)
 - PCR WIKI  # by [Cappuccilo](https://github.com/Cappuccilo)
-- 国服JJC场次查询  #  by [Chendihe4975](https://github.com/Chendihe4975)
+- 国服JJC场次查询  # by [Chendihe4975](https://github.com/Chendihe4975)
 
 ### 会战拓展
 
 - 记轴器
 - 排名查询  # by [var-mixe](https://github.com/var-mixer)
-- 农场登记
+- 农场登记(自用，不支持多个群分别记录)
+- 合刀补偿计算(仅支持两人合刀白嫖)
 
 
 ### 未公开组件或功能
@@ -75,7 +76,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - yobot
 - setu
 - 回复消息取代at_sender
-- 能不能好好说话
+- nbnhhsh，能不能好好说话  # by [Chendihe4975](https://github.com/Chendihe4975)
 
 > 未公开组件通常为开发中/测试中的新功能或因为各种原因不适合公开传播的功能
 > 关于本项目引用的插件，会逐渐补全原作者信息，如有遗漏请联系或直接提交pr
