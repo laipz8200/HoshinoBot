@@ -1,10 +1,9 @@
-import asyncio
-
 from aiocqhttp.message import MessageSegment
-from hoshino import Service, priv, logger
+from hoshino import Service, logger, priv
 from hoshino.typing import CQEvent
-from .dao.timelinesqlitedao import TLSqliteDao
+
 from .dao.dbnamesqlitedao import TLDBNameDao
+from .dao.timelinesqlitedao import TLSqliteDao
 
 sv = Service('timeline', bundle='pcr会战', enable_on_default=False, help_='''
 传轴 <A|B><1-5> <伤害> <说明> <轴>
@@ -16,6 +15,9 @@ sv = Service('timeline', bundle='pcr会战', enable_on_default=False, help_='''
 查看轴库
 切换轴库 <新轴库名>
 '''.strip())
+
+
+recent = {}
 
 
 def tid2id(tid):
@@ -82,54 +84,39 @@ async def insert_timeline(bot, ev: CQEvent):
         db._insert(s[0], s[1], s[2], s[3].strip(), ev.user_id)
         await bot.send(ev, '录入完毕!')
     except:
-        await bot.send(ev, '录入轴失败，请输入\"帮助pcr轴\"查看指令的使用方式')
+        await bot.send(ev, '录入轴失败，请输入\"帮助pcr会战\"查看指令的使用方式')
 
 
 @sv.on_prefix(('查找轴', '查看轴', '查轴', '看轴'))
 async def search_timeline(bot, ev: CQEvent):
+    gid = str(ev.group_id)
+    if gid not in recent:
+        recent[gid] = []
+    if len(recent[gid]) > 4:
+        recent[gid] = recent[gid][-4:]
     try:
         s = ev.message.extract_plain_text()
+        if s in recent[gid]:
+            await bot.send(ev, '这个轴才发过不久, 往上翻一翻吧~', at_sender=True)
+            return
         db = TLSqliteDao(get_dbname(ev.group_id))
         if len(s) == 0:
-            r = db._find_all()
-            msg = ['编号|boss|伤害|备注|赞同数']
-            msg.extend(r)
-            mid = None
-            for i in range(0, len(msg), 6):
-                await asyncio.sleep(1)
-                if mid:
-                    reply = MessageSegment(
-                        type_='reply', data={'id': mid})
-                    # ctx = await bot.send(ev, f'{reply}' + '\n'.join(msg[i: i+6]))
-                    ctx = await bot.send(ev, '\n'.join(msg[i: i+6]))
-                    await asyncio.sleep(2)
-                    mid = ctx['message_id']
-                else:
-                    ctx = await bot.send(ev, '\n'.join(msg[i: i+6]))
-                    mid = ctx['message_id']
+            await bot.send(ev, '为防止长消息风控, 请输入具体的BOSS编号, 如B1', at_sender=True)
         elif s.startswith('T'):
+            recent[gid].append(s)
             r = db._find_by_id(tid2id(s))
             msg = f'{r[0]}, {r[1]}伤害, {r[3]}\n'
             await bot.send(ev, msg + r[2])
         else:
+            recent[gid].append(s)
             r = db._find_by_bossname(s)
-            msg = ['编号|boss|伤害|备注|赞同数']
+            msg = [
+                f'{MessageSegment.at(user_id=ev.user_id)}\n编号|boss|伤害|备注|赞同数']
             msg.extend(r)
-            mid = None
-            for i in range(0, len(msg), 6):
-                await asyncio.sleep(1)
-                if mid:
-                    reply = MessageSegment(
-                        type_='reply', data={'id': mid})
-                    # ctx = await bot.send(ev, f'{reply}' + '\n'.join(msg[i: i+6]))
-                    ctx = await bot.send(ev, '\n'.join(msg[i: i+6]))
-                    mid = ctx['message_id']
-                else:
-                    ctx = await bot.send(ev, '\n'.join(msg[i: i+3]))
-                    mid = ctx['message_id']
+            await bot.send(ev, '\n'.join(msg))
     except Exception as e:
         logger.error(e)
-        await bot.send(ev, '查找轴失败，请输入\"帮助pcr轴\"查看指令的使用方式')
+        await bot.send(ev, '查找轴失败，请输入\"帮助pcr会战\"查看指令的使用方式')
 
 
 @sv.on_prefix(('修改轴', '更新轴', '改轴'))
@@ -147,7 +134,7 @@ async def update_timeline(bot, ev: CQEvent):
         else:
             await bot.send(ev, '您非该轴的上传者或管理员，无修改权限')
     except:
-        await bot.send(ev, '修改轴失败，请输入\"帮助pcr轴\"查看指令的使用方式')
+        await bot.send(ev, '修改轴失败，请输入\"帮助pcr会战\"查看指令的使用方式')
 
 
 @sv.on_prefix(('删轴', '删除轴'))
@@ -161,4 +148,4 @@ async def delete_timeline(bot, ev: CQEvent):
         else:
             await bot.send(ev, '您非该轴的上传者或管理员，无删除权限')
     except:
-        await bot.send(ev, '删除轴失败，请输入\"帮助pcr轴\"查看指令的使用方式')
+        await bot.send(ev, '删除轴失败，请输入\"帮助pcr会战\"查看指令的使用方式')
