@@ -43,8 +43,8 @@ async def sonet_news_poller():
         await get_new_setu(1)
     else:
         for file in (new_file_list := file_list[::2]):
-            sv.logger.info(f'删除{len(new_file_list)}张图片')
             file.unlink()
+        sv.logger.info(f'删除{len(new_file_list)}张图片')
 
 
 def setu_gener():
