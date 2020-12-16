@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from aiocqhttp.message import MessageSegment
 from hoshino import Service, logger, priv
 from hoshino.typing import CQEvent
@@ -18,6 +19,7 @@ sv = Service('timeline', bundle='pcr会战', enable_on_default=False, help_='''
 
 
 recent = {}
+last_search = {}
 
 
 def tid2id(tid):
@@ -82,7 +84,9 @@ async def insert_timeline(bot, ev: CQEvent):
         s = s.lstrip().split(' ', 3)
         db = TLSqliteDao(get_dbname(ev.group_id))
         db._insert(s[0], s[1], s[2], s[3].strip(), ev.user_id)
-        await bot.send(ev, '录入完毕!')
+        all = db._find_all()
+        num = all[-1].split('|')[0]
+        await bot.send(ev, f'轴{num}录入完毕!')
     except:
         await bot.send(ev, '录入轴失败，请输入\"帮助pcr会战\"查看指令的使用方式')
 
@@ -91,24 +95,26 @@ async def insert_timeline(bot, ev: CQEvent):
 async def search_timeline(bot, ev: CQEvent):
     gid = str(ev.group_id)
     if gid not in recent:
-        recent[gid] = []
-    if len(recent[gid]) > 4:
-        recent[gid] = recent[gid][-4:]
+        recent[gid] = ''
+    if gid not in last_search:
+        last_search[gid] = datetime(2000, 1, 1)
     try:
         s = ev.message.extract_plain_text()
-        if s in recent[gid]:
-            await bot.send(ev, '这个轴才发过不久, 往上翻一翻吧~', at_sender=True)
+        if s == recent[gid] and last_search[gid] + timedelta(minutes=2) > datetime.now():
+            await bot.send(ev, '这个轴两分钟内才发过, 往上翻一翻吧~', at_sender=True)
             return
         db = TLSqliteDao(get_dbname(ev.group_id))
         if len(s) == 0:
             await bot.send(ev, '为防止长消息风控, 请输入具体的BOSS编号, 如B1', at_sender=True)
         elif s.startswith('T'):
-            recent[gid].append(s)
+            recent[gid] = s
+            last_search[gid] = datetime.now()
             r = db._find_by_id(tid2id(s))
             msg = f'{r[0]}, {r[1]}伤害, {r[3]}\n'
             await bot.send(ev, msg + r[2])
         else:
-            recent[gid].append(s)
+            recent[gid] = s
+            last_search[gid] = datetime.now()
             r = db._find_by_bossname(s)
             msg = [
                 f'{MessageSegment.at(user_id=ev.user_id)}\n编号|boss|伤害|备注|赞同数']
