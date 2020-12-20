@@ -220,10 +220,11 @@ async def show_question(ctx, target, show_all=False):
         priority_list = []
         if not show_all:  # 不是显示全部的话就筛选个人
             # 获取当前qq设置问题列表
-            if qq in admins:
-                ans_list = util.get_all_ans_list_by_qq(qq, db_list)
-            else:
-                ans_list = util.get_all_ans_list_by_qq(qq, ans_list)
+            # if qq in admins:
+            #     ans_list = util.get_all_ans_list_by_qq(qq, db_list)
+            # else:
+            #     ans_list = util.get_all_ans_list_by_qq(qq, ans_list)
+            ans_list = util.get_all_ans_list_by_qq(qq, ans_list)
 
         else:
             # 这是所有人的问答
@@ -231,7 +232,7 @@ async def show_question(ctx, target, show_all=False):
             # 这人个人问答
             priority_list = util.filter_list(ans_list, lambda x: True in list(i['is_me'] for i in x))
 
-            ans_list = sum(list(util.get_all_ans_list_by_qq(q, db_list) for q in admins), all_list)
+            ans_list = sum(list(util.get_all_ans_list_by_qq(q, ans_list) for q in admins), all_list)
 
         # 如果是多个人 那就加个名字区别一下
         if is_at:
@@ -249,7 +250,7 @@ async def show_question(ctx, target, show_all=False):
             pri_str_list = await util.cq_msg2str(pri_str_list, group_id=ctx['group_id'])
             priority_msg = "\n个人问答:\n" + print_all_split.join(pri_str_list)
 
-        msg = "{}{}{}{}\n".format(msg, head, msg_context if ans_list else f'还没有设置过问题呢', priority_msg)
+        msg = "{}{}{}{}".format(msg, head, msg_context if ans_list else f'还没有设置过问题呢', priority_msg)
     return msg
 
 
