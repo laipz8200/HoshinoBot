@@ -264,16 +264,6 @@ async def get_poke(session: NoticeSession):
         await session.send(MessageSegment(type_='poke', data={'qq': str(uid)}))
 
 
-@sv.on_notice('group_recall')
-async def antiwithdraw(session):
-    ev = session.event
-    if ev['operator_id'] != ev['self_id']:
-        await session.send(
-            f'{MessageSegment.at(ev["user_id"])} '
-            f'怀孕了就说出来, 大家一起帮你想办法嘛{MessageSegment.face(id_=22)}'
-        )
-
-
 @sv.on_notice('notify')
 async def dragon_king(session: NoticeSession):
     ev = session.event
@@ -314,15 +304,9 @@ async def dragon_king(session: NoticeSession):
 # ===================test===================== #
 
 
-@sv.on_fullmatch('test_send_mp3')
+# @sv.on_fullmatch('test_send_mp3')
 async def test_send_mp3(bot, ev):
     await bot.send(ev, R.rec('YUUDACHI/5.mp3').cqcode)
-
-
-@sv.on_keyword('来啊快活啊', only_to_me=True)
-async def get_out(bot, ctx):
-    await bot.send(ctx, '爬' * random.randint(1, 8) + '!', at_sender=True)
-    await util.silence(ctx, 30)
 
 
 @sv.on_prefix('echo')

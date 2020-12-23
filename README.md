@@ -36,6 +36,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - 设置/取消管理员
 - 修改成员群名片
 - 支持指定接收广播的群组
+- 群消息防撤回
 
 > 需要bot具有管理权限，部分功能需要bot作为群主
 
