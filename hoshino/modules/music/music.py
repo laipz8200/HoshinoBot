@@ -228,7 +228,7 @@ async def search_music(music_name: str) -> typing.Union[list, dict]:
     song_list = await searchqq(music_name, 3)
     if song_list:
         result += song_list
-    # song_list = await searchmigu(music_name, 2)
-    # if song_list:
-    #     result += song_list
+    song_list = await searchmigu(music_name, 3)
+    if song_list:
+        result += song_list
     return result
