@@ -45,7 +45,6 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 - 早中晚问好和一些日常对话的回应
 - 戳一戳/回戳*
 - PCR小游戏，猜角色猜头像猜语音，分别具有排行榜  # by [GWYOG](https://github.com/GWYOG)
-- 撤回响应，怀孕了就说出来嘛
 - 升级版加密通话, 需要bot能够撤回成员消息
 - 新龙王提醒*
 - PCR角色抽签运势
