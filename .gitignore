@@ -27,6 +27,7 @@ hoshino/modules/aircon/aircon.json
 hoshino/modules/memegenerator/meme/
 hoshino/modules/clanrank/clanrank.json
 hoshino/modules/eqa/config.yaml
+hoshino/modules/priconne/wiki/version.json
 
 # 暂时删除的代码
 TRASH/

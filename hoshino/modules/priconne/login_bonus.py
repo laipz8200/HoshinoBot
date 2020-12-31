@@ -44,13 +44,13 @@ todo_list = [
 ]
 
 
-@sv.on_fullmatch(('签到', '盖章', '妈', '妈?', '妈妈', '妈!', '妈！', '妈妈！'), only_to_me=True)
+@sv.on_fullmatch(('签到', '盖章'), only_to_me=True)
 async def give_okodokai(bot, ev: CQEvent):
     uid = ev.user_id
     if not lmt.check(uid):
-        await bot.send(ev, '明日はもう一つプレゼントをご用意してお待ちしますね', at_sender=True)
+        await bot.send(ev, '我今天不想去了，你明天再来吧', at_sender=True)
         return
     lmt.increase(uid)
     present = random.choice(login_presents)
     todo = random.choice(todo_list)
-    await bot.send(ev, f'おかえりなさいませ、主さま{R.img("priconne/kokkoro_stamp.png").cqcode}\n{present}を獲得しました\n私からのプレゼントです\n主人今天要{todo}吗？', at_sender=True)
+    await bot.send(ev, f'我找可萝酱给你盖了个章\n{R.img("priconne/kokkoro_stamp.png").cqcode}\n这是她给你的{present}\n还问你今天要{todo}吗？', at_sender=True)

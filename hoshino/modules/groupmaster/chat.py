@@ -5,8 +5,7 @@ import re
 from aiocqhttp.message import MessageSegment, unescape
 from nonebot import on_command
 
-from hoshino import R, Service, get_bot, priv, util, logger
-from hoshino.config import SUBSCRIBER, SUBSCRIBER_GROUP
+from hoshino import R, Service, priv, util, logger
 from hoshino.typing import NoticeSession
 
 
@@ -84,6 +83,11 @@ async def chat_mua(bot, ev):
 @sv.on_fullmatch('来点星奏')
 async def seina(bot, ev):
     await bot.send(ev, R.img('星奏.png').cqcode)
+
+
+@sv.on_fullmatch('妈', only_to_me=True)
+async def seina(bot, ev):
+    await bot.send(ev, '我不是你妈!')
 
 
 # @sv.on_fullmatch(('我有个朋友说他好了', '我朋友说他好了', ))
@@ -309,7 +313,7 @@ async def test_send_mp3(bot, ev):
     await bot.send(ev, R.rec('YUUDACHI/5.mp3').cqcode)
 
 
-@sv.on_prefix('echo')
+# @sv.on_prefix('echo')
 async def echo(bot, ev):
     context = []
     for msg_seg in ev.message:
