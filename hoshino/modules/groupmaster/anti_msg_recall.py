@@ -5,7 +5,7 @@ sv = Service(
     'anti-msg-recall',
     enable_on_default=False,
     visible=True,
-    help_="反撤回功能",
+    help_="防撤回功能",
     manage_priv=priv.SUPERUSER
 )
 

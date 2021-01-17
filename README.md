@@ -67,7 +67,7 @@ A qqbot for Princess Connect Re:Dive (and other usage :)
 
 - 记轴器
 - 排名查询  # by [var-mixe](https://github.com/var-mixer)
-- 农场登记(自用，不支持多个群分别记录)
+- 农场登记
 - 合刀补偿计算(仅支持两人合刀白嫖)
 
 
